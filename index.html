@@ -115,7 +115,7 @@ function verifyDocument(){
 
     result.style.display = "block";
 
-    fetch("data.json")
+    fetch("data.json?v=" + new Date().getTime())
     .then(response => response.json())
     .then(data => {
 
