@@ -14,5 +14,13 @@
   "reportType": "Floor Plan",
   "issueDate": "2026-07-30",
   "status": "VERIFIED"
+},
+  {
+  "id": "PA-2026-VKA8",
+  "ownerName": "Bhavika Patel",
+  "ownerAddress": "Plot no. 25 Navkar Naga, Khandwa",
+  "reportType": "Floor Plan",
+  "issueDate": "2026-07-30",
+  "status": "VERIFIED"
 }
 ]
