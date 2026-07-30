@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,6 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>PATEL ASSOCIATES - ID Generator</title>
+
+<!-- QR Code Library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <style>
 
@@ -35,7 +39,8 @@ label{
     font-weight:bold;
 }
 
-input, select{
+input,
+select{
     width:100%;
     box-sizing:border-box;
     padding:12px;
@@ -65,7 +70,6 @@ button:hover{
     background:#e8f5e9;
     border:1px solid #28a745;
     border-radius:8px;
-    text-align:center;
     display:none;
 }
 
@@ -73,6 +77,46 @@ button:hover{
     font-size:24px;
     font-weight:bold;
     color:#198754;
+    text-align:center;
+    margin-top:10px;
+    margin-bottom:20px;
+}
+
+#verificationLink{
+    background:white;
+}
+
+#qrcode{
+    margin:20px auto;
+    width:200px;
+    min-height:200px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:white;
+    padding:10px;
+    border-radius:5px;
+}
+
+#record{
+    text-align:left;
+    background:#f5f5f5;
+    padding:15px;
+    overflow:auto;
+    white-space:pre-wrap;
+    word-break:break-word;
+}
+
+.success{
+    color:#198754;
+    font-weight:bold;
+    text-align:center;
+}
+
+.small-text{
+    font-size:13px;
+    color:#555;
+    text-align:center;
 }
 
 </style>
@@ -85,119 +129,460 @@ button:hover{
 
 <h1>PATEL ASSOCIATES</h1>
 
-<h2 style="text-align:center;">Verification ID Generator</h2>
+<h2 style="text-align:center;">
+Verification ID Generator
+</h2>
+
+
+<!-- OWNER NAME -->
 
 <label>Owner Name</label>
-<input type="text" id="ownerName" placeholder="Enter Owner Name">
+
+<input
+    type="text"
+    id="ownerName"
+    placeholder="Enter Owner Name"
+>
+
+
+<!-- OWNER ADDRESS -->
 
 <label>Owner Address</label>
-<input type="text" id="ownerAddress" placeholder="Enter Owner Address">
+
+<input
+    type="text"
+    id="ownerAddress"
+    placeholder="Enter Owner Address"
+>
+
+
+<!-- REPORT TYPE -->
 
 <label>Report Type</label>
+
 <select id="reportType">
 
-<option value="">Select Report Type</option>
+    <option value="">
+        Select Report Type
+    </option>
 
-<option>Floor Plan</option>
-<option>Estimate</option>
-<option>Location Map</option>
-<option>Key Plan</option>
-<option>Report</option>
+    <option value="Floor Plan">
+        Floor Plan
+    </option>
+
+    <option value="Estimate">
+        Estimate
+    </option>
+
+    <option value="Location Map">
+        Location Map
+    </option>
+
+    <option value="Key Plan">
+        Key Plan
+    </option>
+
+    <option value="Report">
+        Report
+    </option>
 
 </select>
 
+
+<!-- ISSUE DATE -->
+
 <label>Issue Date</label>
-<input type="date" id="issueDate">
+
+<input
+    type="date"
+    id="issueDate"
+>
+
+
+<!-- GENERATE BUTTON -->
 
 <button onclick="generateID()">
-🔐 Generate Verification ID
+
+    🔐 Generate Verification ID
+
 </button>
+
+
+<!-- GENERATED RESULT -->
 
 <div id="generated">
 
-<h3>✅ Verification ID Generated</h3>
+    <h3 class="success">
+        ✅ Verification ID Generated
+    </h3>
 
-<div id="verificationID"></div>
 
-<button onclick="copyID()">
-📋 Copy ID
-</button>
-<h3>📄 Complete Record</h3>
+    <!-- VERIFICATION ID -->
 
-<pre id="record" style="text-align:left;background:#f5f5f5;padding:15px;overflow:auto;"></pre>
+    <h3>
+        Verification ID
+    </h3>
 
-<button onclick="copyRecord()">
-📋 Copy Record
-</button>
+    <div id="verificationID"></div>
+
+
+    <button onclick="copyID()">
+
+        📋 Copy Verification ID
+
+    </button>
+
+
+    <!-- VERIFICATION LINK -->
+
+    <h3>
+        🔗 Verification Link
+    </h3>
+
+    <input
+        type="text"
+        id="verificationLink"
+        readonly
+    >
+
+
+    <button onclick="copyLink()">
+
+        📋 Copy Verification Link
+
+    </button>
+
+
+    <!-- QR CODE -->
+
+    <h3 style="text-align:center;">
+
+        📱 QR Code
+
+    </h3>
+
+    <div id="qrcode"></div>
+
+
+    <button onclick="downloadQR()">
+
+        ⬇️ Download QR Code
+
+    </button>
+
+
+    <!-- COMPLETE RECORD -->
+
+    <h3>
+        📄 Complete Record
+    </h3>
+
+    <pre id="record"></pre>
+
+
+    <button onclick="copyRecord()">
+
+        📋 Copy Record
+
+    </button>
+
 </div>
 
 </div>
+
 
 <script>
 
+
+/* ==========================================
+   GENERATE VERIFICATION ID
+========================================== */
+
 function generateID(){
 
-    let ownerName = document.getElementById("ownerName").value.trim();
-    let ownerAddress = document.getElementById("ownerAddress").value.trim();
-    let reportType = document.getElementById("reportType").value;
-    let issueDate = document.getElementById("issueDate").value;
+    let ownerName =
+        document.getElementById("ownerName").value.trim();
 
-    if(ownerName === "" || ownerAddress === "" || reportType === "" || issueDate === ""){
+    let ownerAddress =
+        document.getElementById("ownerAddress").value.trim();
+
+    let reportType =
+        document.getElementById("reportType").value;
+
+    let issueDate =
+        document.getElementById("issueDate").value;
+
+
+    /* CHECK ALL FIELDS */
+
+    if(
+        ownerName === "" ||
+        ownerAddress === "" ||
+        reportType === "" ||
+        issueDate === ""
+    ){
 
         alert("कृपया सभी जानकारी भरें।");
+
         return;
 
     }
 
-    let characters = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+
+    /* ==========================================
+       CREATE UNIQUE ID
+    ========================================== */
+
+    let year =
+        new Date().getFullYear();
+
+
+    let characters =
+        "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+
 
     let randomID = "";
 
-    for(let i=0; i<6; i++){
+
+    for(let i = 0; i < 4; i++){
 
         randomID += characters.charAt(
-            Math.floor(Math.random() * characters.length)
+
+            Math.floor(
+                Math.random() * characters.length
+            )
+
         );
 
     }
 
-    let finalID = "PA-" + randomID;
 
-    document.getElementById("verificationID").innerText = finalID;
+    /*
+       Example:
+
+       PA-2026-A7K9
+    */
+
+    let finalID =
+        "PA-" + year + "-" + randomID;
+
+
+    /* ==========================================
+       CREATE VERIFICATION LINK
+    ========================================== */
+
+    let verificationLink =
+        window.location.origin +
+        window.location.pathname
+            .replace("admin.html","verify.html") +
+        "?id=" +
+        encodeURIComponent(finalID);
+
+
+    /*
+       Example:
+
+       https://yourwebsite.com/verify.html?id=PA-2026-A7K9
+    */
+
+
+    /* ==========================================
+       CREATE RECORD
+    ========================================== */
 
     let record = {
+
         id: finalID,
+
         ownerName: ownerName,
+
         ownerAddress: ownerAddress,
+
         reportType: reportType,
+
         issueDate: issueDate,
+
         status: "VERIFIED"
+
     };
 
-    document.getElementById("record").innerText =
+
+    /* ==========================================
+       SHOW VERIFICATION ID
+    ========================================== */
+
+    document.getElementById(
+        "verificationID"
+    ).innerText = finalID;
+
+
+    /* ==========================================
+       SHOW VERIFICATION LINK
+    ========================================== */
+
+    document.getElementById(
+        "verificationLink"
+    ).value = verificationLink;
+
+
+    /* ==========================================
+       SHOW COMPLETE RECORD
+    ========================================== */
+
+    document.getElementById(
+        "record"
+    ).innerText =
         JSON.stringify(record, null, 2);
 
-    document.getElementById("generated").style.display = "block";
+
+    /* ==========================================
+       CLEAR OLD QR CODE
+    ========================================== */
+
+    document.getElementById(
+        "qrcode"
+    ).innerHTML = "";
+
+
+    /* ==========================================
+       CREATE QR CODE
+    ========================================== */
+
+    new QRCode(
+
+        document.getElementById("qrcode"),
+
+        {
+
+            text: verificationLink,
+
+            width:200,
+
+            height:200
+
+        }
+
+    );
+
+
+    /* ==========================================
+       SHOW RESULT BOX
+    ========================================== */
+
+    document.getElementById(
+        "generated"
+    ).style.display = "block";
+
 
 }
+
+
+/* ==========================================
+   COPY VERIFICATION ID
+========================================== */
 
 function copyID(){
 
-    let id = document.getElementById("verificationID").innerText;
+    let id =
+        document.getElementById(
+            "verificationID"
+        ).innerText;
+
 
     navigator.clipboard.writeText(id);
 
-    alert("Verification ID copied: " + id);
+
+    alert(
+        "Verification ID copied: " + id
+    );
 
 }
 
+
+/* ==========================================
+   COPY VERIFICATION LINK
+========================================== */
+
+function copyLink(){
+
+    let link =
+        document.getElementById(
+            "verificationLink"
+        ).value;
+
+
+    navigator.clipboard.writeText(link);
+
+
+    alert(
+        "Verification Link copied."
+    );
+
+}
+
+
+/* ==========================================
+   COPY COMPLETE RECORD
+========================================== */
+
 function copyRecord(){
 
-    let record = document.getElementById("record").innerText;
+    let record =
+        document.getElementById(
+            "record"
+        ).innerText;
+
 
     navigator.clipboard.writeText(record);
 
-    alert("Complete record copied.");
+
+    alert(
+        "Complete record copied."
+    );
+
+}
+
+
+/* ==========================================
+   DOWNLOAD QR CODE
+========================================== */
+
+function downloadQR(){
+
+    let qrImage =
+        document.querySelector(
+            "#qrcode img"
+        );
+
+
+    if(!qrImage){
+
+        alert(
+            "पहले Verification ID Generate करें।"
+        );
+
+        return;
+
+    }
+
+
+    let downloadLink =
+        document.createElement("a");
+
+
+    downloadLink.href =
+        qrImage.src;
+
+
+    downloadLink.download =
+        "PATEL-ASSOCIATES-" +
+        document.getElementById(
+            "verificationID"
+        ).innerText +
+        ".png";
+
+
+    downloadLink.click();
 
 }
 
@@ -205,3 +590,4 @@ function copyRecord(){
 
 </body>
 </html>
+```
