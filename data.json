@@ -62,5 +62,13 @@
     "reportType": "Location Map",
     "issueDate": "2026-07-30",
     "status": "VERIFIED"
-  }
+  },
+  {
+  "id": "PA-2026-PHMY",
+  "ownerName": "Shri Ram",
+  "ownerAddress": "Plot no. 1234345324",
+  "reportType": "Floor Plan",
+  "issueDate": "2026-07-30",
+  "status": "VERIFIED"
+}
 ]
