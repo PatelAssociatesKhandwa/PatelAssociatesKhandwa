@@ -56,6 +56,14 @@
       "reportType": "Floor Plan",
       "issueDate": "2026-07-30",
       "status": "VERIFIED"
-    }
+    },
+    {
+  "id": "PA-2026-2NHD",
+  "ownerName": "Bhavika",
+  "ownerAddress": "Plot no. 181",
+  "reportType": "Location Map",
+  "issueDate": "2026-07-30",
+  "status": "VERIFIED"
+}
   ]
 }
