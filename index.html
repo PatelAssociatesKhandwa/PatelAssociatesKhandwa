@@ -109,45 +109,67 @@ color:#666;
 
 function verifyDocument(){
 
-let id = document.getElementById("verificationId").value.trim();
+    let id = document.getElementById("verificationId").value.trim();
 
-let result = document.getElementById("result");
+    let result = document.getElementById("result");
 
-if(id=="PA-2026-0001"){
+    result.style.display = "block";
 
-result.style.display="block";
+    fetch("data.json")
+    .then(response => response.json())
+    .then(data => {
 
-result.innerHTML=`
+        let documentData = data.find(item => item.id === id);
 
-<h2 style="color:green;">✅ DOCUMENT VERIFIED</h2>
+        if(documentData){
 
-<p><b>Verification ID :</b> PA-2026-0001</p>
+            result.innerHTML = `
 
-<p><b>Owner Name :</b> ANIL PATEL</p>
+            <h2 style="color:green;">✅ DOCUMENT VERIFIED</h2>
 
-<p><b>Owner Address :</b> Plot No. 123, Colony Name, District Khandwa</p>
+            <p><b>Verification ID :</b> ${documentData.id}</p>
 
-<p><b>Report Type :</b> Floor Plan / Estimate / Location Map / Key Plan / Report</p>
+            <p><b>Owner Name :</b> ${documentData.ownerName}</p>
 
-<p><b>Issue Date :</b> 27 July 2026</p>
+            <p><b>Owner Address :</b> ${documentData.ownerAddress}</p>
 
-<p><b>Status :</b> <span style="color:green;">VERIFIED</span></p>
+            <p><b>Report Type :</b> ${documentData.reportType}</p>
 
-`;
+            <p><b>Issue Date :</b> ${documentData.issueDate}</p>
 
-}else{
+            <p><b>Status :</b>
+            <span style="color:green;">
+            ${documentData.status}
+            </span>
+            </p>
 
-result.style.display="block";
+            `;
 
-result.innerHTML=`
+        }else{
 
-<h2 style="color:red;">❌ INVALID DOCUMENT</h2>
+            result.innerHTML = `
 
-<p>This Verification ID was not found.</p>
+            <h2 style="color:red;">❌ INVALID DOCUMENT</h2>
 
-`;
+            <p>This Verification ID was not found.</p>
 
-}
+            `;
+
+        }
+
+    })
+
+    .catch(error => {
+
+        result.innerHTML = `
+
+        <h2 style="color:red;">⚠️ ERROR</h2>
+
+        <p>Unable to load verification data.</p>
+
+        `;
+
+    });
 
 }
 
