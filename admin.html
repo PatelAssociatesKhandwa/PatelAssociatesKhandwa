@@ -122,7 +122,13 @@ button:hover{
 <button onclick="copyID()">
 📋 Copy ID
 </button>
+<h3>📄 Complete Record</h3>
 
+<pre id="record" style="text-align:left;background:#f5f5f5;padding:15px;overflow:auto;"></pre>
+
+<button onclick="copyRecord()">
+📋 Copy Record
+</button>
 </div>
 
 </div>
@@ -130,6 +136,18 @@ button:hover{
 <script>
 
 function generateID(){
+
+    let ownerName = document.getElementById("ownerName").value.trim();
+    let ownerAddress = document.getElementById("ownerAddress").value.trim();
+    let reportType = document.getElementById("reportType").value;
+    let issueDate = document.getElementById("issueDate").value;
+
+    if(ownerName === "" || ownerAddress === "" || reportType === "" || issueDate === ""){
+
+        alert("कृपया सभी जानकारी भरें।");
+        return;
+
+    }
 
     let characters = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 
@@ -147,6 +165,18 @@ function generateID(){
 
     document.getElementById("verificationID").innerText = finalID;
 
+    let record = {
+        id: finalID,
+        ownerName: ownerName,
+        ownerAddress: ownerAddress,
+        reportType: reportType,
+        issueDate: issueDate,
+        status: "VERIFIED"
+    };
+
+    document.getElementById("record").innerText =
+        JSON.stringify(record, null, 2);
+
     document.getElementById("generated").style.display = "block";
 
 }
@@ -158,6 +188,16 @@ function copyID(){
     navigator.clipboard.writeText(id);
 
     alert("Verification ID copied: " + id);
+
+}
+
+function copyRecord(){
+
+    let record = document.getElementById("record").innerText;
+
+    navigator.clipboard.writeText(record);
+
+    alert("Complete record copied.");
 
 }
 
