@@ -6,5 +6,13 @@
     "reportType": "Floor Plan / Estimate / Location Map / Key Plan / Report",
     "issueDate": "27 July 2026",
     "status": "VERIFIED"
+  },
+  {
+    "id": "PA-MNAK28",
+    "ownerName": "ANIL PATEL",
+    "ownerAddress": "Plot No. 123, Colony Name, District Khandwa",
+    "reportType": "Floor Plan",
+    "issueDate": "27 July 2026",
+    "status": "VERIFIED"
   }
 ]
