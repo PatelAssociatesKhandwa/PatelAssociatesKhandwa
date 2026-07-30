@@ -56,6 +56,14 @@
       "reportType": "Floor Plan",
       "issueDate": "2026-07-30",
       "status": "VERIFIED"
-    }
+    },
+    {
+  "id": "PA-2026-CWHF",
+  "ownerName": "Anika",
+  "ownerAddress": "Plot no. 333",
+  "reportType": "Location Map",
+  "issueDate": "2026-07-30",
+  "status": "VERIFIED"
+}
   ]
 }
