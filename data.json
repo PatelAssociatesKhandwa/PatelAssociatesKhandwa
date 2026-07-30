@@ -46,5 +46,17 @@
   "reportType": "Location Map",
   "issueDate": "2026-07-30",
   "status": "VERIFIED"
+},
+  {
+  "records": [
+    {
+      "id": "PA-2026-1234",
+      "ownerName": "Ramesh Patel",
+      "ownerAddress": "Khandwa, Madhya Pradesh",
+      "reportType": "Floor Plan",
+      "issueDate": "2026-07-30",
+      "status": "VERIFIED"
+    }
+  ]
 }
 ]
