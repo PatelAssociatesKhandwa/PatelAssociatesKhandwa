@@ -8,62 +8,6 @@
     "status": "VERIFIED"
   },
   {
-    "id": "PA-MNAK28",
-    "ownerName": "ANIL PATEL",
-    "ownerAddress": "Plot No. 123, Colony Name, District Khandwa",
-    "reportType": "Floor Plan",
-    "issueDate": "27 July 2026",
-    "status": "VERIFIED"
-  },
-  {
-    "id": "PA-X7K4M9",
-    "ownerName": "RAKESH SHARMA",
-    "ownerAddress": "Ward No. 5, Khandwa, Madhya Pradesh",
-    "reportType": "Estimate",
-    "issueDate": "30 July 2026",
-    "status": "VERIFIED"
-  },
-  {
-    "id": "PA-KCW7FT",
-    "ownerName": "RAKESH SHARMA",
-    "ownerAddress": "Ward No. 5, Khandwa, Madhya Pradesh",
-    "reportType": "Estimate",
-    "issueDate": "2026-07-30",
-    "status": "VERIFIED"
-  },
-  {
-    "id": "PA-ZY7NNG",
-    "ownerName": "Raghvi Patel",
-    "ownerAddress": "Plot no. 25, Navkar Nagar, Khandwa",
-    "reportType": "Estimate",
-    "issueDate": "2026-07-30",
-    "status": "VERIFIED"
-  },
-  {
-    "id": "PA-2026-2NHD",
-    "ownerName": "Bhavika",
-    "ownerAddress": "Plot no. 181",
-    "reportType": "Location Map",
-    "issueDate": "2026-07-30",
-    "status": "VERIFIED"
-  },
-  {
-    "id": "PA-2026-1234",
-    "ownerName": "Ramesh Patel",
-    "ownerAddress": "Khandwa, Madhya Pradesh",
-    "reportType": "Floor Plan",
-    "issueDate": "2026-07-30",
-    "status": "VERIFIED"
-  },
-  {
-    "id": "PA-2026-CWHF",
-    "ownerName": "Anika",
-    "ownerAddress": "Plot no. 333",
-    "reportType": "Location Map",
-    "issueDate": "2026-07-30",
-    "status": "VERIFIED"
-  },
-  {
   "id": "PA-2026-PHMY",
   "ownerName": "Shri Ram",
   "ownerAddress": "Plot no. 1234345324",
