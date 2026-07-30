@@ -1,1 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
 
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>PATEL ASSOCIATES - ID Generator</title>
+
+<style>
+
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#f5f5f5;
+}
+
+.container{
+    max-width:600px;
+    margin:40px auto;
+    background:white;
+    padding:30px;
+    border-radius:10px;
+    box-shadow:0 0 15px rgba(0,0,0,.15);
+}
+
+h1{
+    text-align:center;
+    color:#0b5ed7;
+}
+
+label{
+    display:block;
+    margin-top:20px;
+    font-weight:bold;
+}
+
+input, select{
+    width:100%;
+    box-sizing:border-box;
+    padding:12px;
+    margin-top:8px;
+    font-size:16px;
+}
+
+button{
+    width:100%;
+    padding:14px;
+    margin-top:25px;
+    font-size:18px;
+    background:#0b5ed7;
+    color:white;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#084298;
+}
+
+#generated{
+    margin-top:25px;
+    padding:20px;
+    background:#e8f5e9;
+    border:1px solid #28a745;
+    border-radius:8px;
+    text-align:center;
+    display:none;
+}
+
+#verificationID{
+    font-size:24px;
+    font-weight:bold;
+    color:#198754;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>PATEL ASSOCIATES</h1>
+
+<h2 style="text-align:center;">Verification ID Generator</h2>
+
+<label>Owner Name</label>
+<input type="text" id="ownerName" placeholder="Enter Owner Name">
+
+<label>Owner Address</label>
+<input type="text" id="ownerAddress" placeholder="Enter Owner Address">
+
+<label>Report Type</label>
+<select id="reportType">
+
+<option value="">Select Report Type</option>
+
+<option>Floor Plan</option>
+<option>Estimate</option>
+<option>Location Map</option>
+<option>Key Plan</option>
+<option>Report</option>
+
+</select>
+
+<label>Issue Date</label>
+<input type="date" id="issueDate">
+
+<button onclick="generateID()">
+🔐 Generate Verification ID
+</button>
+
+<div id="generated">
+
+<h3>✅ Verification ID Generated</h3>
+
+<div id="verificationID"></div>
+
+<button onclick="copyID()">
+📋 Copy ID
+</button>
+
+</div>
+
+</div>
+
+<script>
+
+function generateID(){
+
+    let characters = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+
+    let randomID = "";
+
+    for(let i=0; i<6; i++){
+
+        randomID += characters.charAt(
+            Math.floor(Math.random() * characters.length)
+        );
+
+    }
+
+    let finalID = "PA-" + randomID;
+
+    document.getElementById("verificationID").innerText = finalID;
+
+    document.getElementById("generated").style.display = "block";
+
+}
+
+function copyID(){
+
+    let id = document.getElementById("verificationID").innerText;
+
+    navigator.clipboard.writeText(id);
+
+    alert("Verification ID copied: " + id);
+
+}
+
+</script>
+
+</body>
+</html>
