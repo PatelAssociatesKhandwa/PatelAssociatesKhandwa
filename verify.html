@@ -7,117 +7,205 @@
 <meta charset="UTF-8">
 
 <meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
+content="width=device-width, initial-scale=1.0">
 
 <title>PATEL ASSOCIATES - Verification</title>
 
+
 <style>
 
+*{
+    box-sizing:border-box;
+}
+
 body{
+
     margin:0;
+
     font-family:Arial,sans-serif;
+
     background:#f5f5f5;
+
 }
 
 .container{
+
     max-width:600px;
+
     margin:40px auto;
+
     background:white;
+
     padding:30px;
+
     border-radius:12px;
+
     box-shadow:0 0 15px rgba(0,0,0,.15);
+
 }
 
 h1{
+
     text-align:center;
+
     color:#0b5ed7;
+
+    margin-bottom:5px;
+
 }
 
 h2{
+
     text-align:center;
+
+    margin-top:5px;
+
+    color:#333;
+
 }
 
 .loading{
+
     text-align:center;
+
     padding:25px;
+
     font-size:18px;
+
 }
 
 .verified{
+
     background:#d1e7dd;
+
     color:#0f5132;
+
     border:1px solid #198754;
+
     padding:18px;
+
     border-radius:8px;
+
     text-align:center;
+
     font-size:24px;
+
     font-weight:bold;
+
 }
 
 .notverified{
+
     background:#f8d7da;
+
     color:#842029;
+
     border:1px solid #dc3545;
+
     padding:18px;
+
     border-radius:8px;
+
     text-align:center;
+
     font-size:22px;
+
     font-weight:bold;
+
 }
 
 .id{
+
     text-align:center;
+
     font-size:25px;
+
     font-weight:bold;
+
     color:#198754;
+
     margin:20px 0;
+
 }
 
 .record{
+
     margin-top:20px;
+
     border:1px solid #ddd;
+
     border-radius:8px;
+
     overflow:hidden;
+
 }
 
 .row{
-    padding:14px;
+
+    padding:15px;
+
     border-bottom:1px solid #ddd;
+
 }
 
 .row:last-child{
+
     border-bottom:none;
+
 }
 
 .label{
+
     font-weight:bold;
+
     color:#555;
-    margin-bottom:5px;
+
+    margin-bottom:6px;
+
 }
 
 .value{
+
     font-size:17px;
+
     color:#111;
+
+    word-break:break-word;
+
 }
 
 .footer{
+
     text-align:center;
+
     margin-top:25px;
+
     color:#777;
+
     font-size:13px;
+
 }
 
 </style>
 
 </head>
 
+
 <body>
+
 
 <div class="container">
 
-<h1>PATEL ASSOCIATES</h1>
 
-<h2>Online Verification</h2>
+<h1>
+PATEL ASSOCIATES
+</h1>
+
+
+<h2>
+Online Verification
+</h2>
+
 
 <div id="loading" class="loading">
 
@@ -125,37 +213,45 @@ h2{
 
 </div>
 
+
 <div id="result"></div>
+
 
 <div class="footer">
 
 PATEL ASSOCIATES<br>
+
 Online Document Verification System
 
 </div>
 
+
 </div>
+
 
 
 <script>
 
 
-/* =========================================
-   URL से ID निकालना
-========================================= */
+/* ==================================================
+   URL से Verification ID प्राप्त करें
+================================================== */
+
 
 const urlParams =
     new URLSearchParams(
         window.location.search
     );
 
+
 const verificationID =
     urlParams.get("id");
 
 
-/* =========================================
+/* ==================================================
    ID नहीं मिली
-========================================= */
+================================================== */
+
 
 if(!verificationID){
 
@@ -166,13 +262,17 @@ if(!verificationID){
 }
 
 
-/* =========================================
-   data.json पढ़ना
-========================================= */
+/* ==================================================
+   DATA.JSON LOAD करें
+================================================== */
+
 
 else{
 
-    fetch("data.json")
+    fetch(
+        "data.json?time=" +
+        Date.now()
+    )
 
     .then(function(response){
 
@@ -207,31 +307,52 @@ else{
 }
 
 
-/* =========================================
-   RECORD SEARCH
-========================================= */
+/* ==================================================
+   RECORD FIND करें
+================================================== */
+
 
 function findRecord(data){
 
-    /*
-       आपकी data.json सीधे ARRAY है
 
-       इसलिए data.records नहीं,
-       बल्कि data.find() इस्तेमाल होगा
+    /*
+       data.json एक ARRAY है।
+
+       Example:
+
+       [
+          {
+             "id":"PA-2026-0001"
+          }
+       ]
     */
 
 
-    let record =
+    if(!Array.isArray(data)){
+
+        showError(
+            "data.json का format गलत है।"
+        );
+
+        return;
+
+    }
+
+
+    /* ID से record खोजें */
+
+    const record =
         data.find(function(item){
 
-            return item.id === verificationID;
+            return String(item.id).trim()
+                === String(verificationID).trim();
 
         });
 
 
-    /* =====================================
-       RECORD NOT FOUND
-    ===================================== */
+    /* ==================================================
+       RECORD नहीं मिला
+    ================================================== */
 
     if(!record){
 
@@ -244,9 +365,10 @@ function findRecord(data){
     }
 
 
-    /* =====================================
-       RECORD FOUND
-    ===================================== */
+    /* ==================================================
+       RECORD मिल गया
+    ================================================== */
+
 
     document.getElementById(
         "loading"
@@ -256,6 +378,7 @@ function findRecord(data){
     document.getElementById(
         "result"
     ).innerHTML = `
+
 
         <div class="verified">
 
@@ -281,7 +404,11 @@ function findRecord(data){
                 </div>
 
                 <div class="value">
-                    ${escapeHTML(record.ownerName)}
+
+                    ${escapeHTML(
+                        record.ownerName
+                    )}
+
                 </div>
 
             </div>
@@ -294,7 +421,11 @@ function findRecord(data){
                 </div>
 
                 <div class="value">
-                    ${escapeHTML(record.ownerAddress)}
+
+                    ${escapeHTML(
+                        record.ownerAddress
+                    )}
+
                 </div>
 
             </div>
@@ -307,7 +438,11 @@ function findRecord(data){
                 </div>
 
                 <div class="value">
-                    ${escapeHTML(record.reportType)}
+
+                    ${escapeHTML(
+                        record.reportType
+                    )}
+
                 </div>
 
             </div>
@@ -320,7 +455,11 @@ function findRecord(data){
                 </div>
 
                 <div class="value">
-                    ${escapeHTML(record.issueDate)}
+
+                    ${escapeHTML(
+                        record.issueDate
+                    )}
+
                 </div>
 
             </div>
@@ -333,7 +472,11 @@ function findRecord(data){
                 </div>
 
                 <div class="value">
-                    ✓ ${escapeHTML(record.status)}
+
+                    ✓ ${escapeHTML(
+                        record.status
+                    )}
+
                 </div>
 
             </div>
@@ -346,11 +489,13 @@ function findRecord(data){
 }
 
 
-/* =========================================
-   ERROR
-========================================= */
+/* ==================================================
+   ERROR MESSAGE
+================================================== */
+
 
 function showError(message){
+
 
     document.getElementById(
         "loading"
@@ -361,6 +506,7 @@ function showError(message){
         "result"
     ).innerHTML = `
 
+
         <div class="notverified">
 
             ✕ NOT VERIFIED
@@ -369,6 +515,7 @@ function showError(message){
                 font-size:15px;
                 margin-top:12px;
                 font-weight:normal;
+                line-height:1.5;
             ">
 
                 ${escapeHTML(message)}
@@ -382,11 +529,13 @@ function showError(message){
 }
 
 
-/* =========================================
-   SECURITY
-========================================= */
+/* ==================================================
+   SECURITY FUNCTION
+================================================== */
+
 
 function escapeHTML(value){
+
 
     if(
         value === undefined ||
@@ -400,19 +549,35 @@ function escapeHTML(value){
 
     return String(value)
 
-        .replace(/&/g,"&amp;")
+        .replace(
+            /&/g,
+            "&amp;"
+        )
 
-        .replace(/</g,"&lt;")
+        .replace(
+            /</g,
+            "&lt;"
+        )
 
-        .replace(/>/g,"&gt;")
+        .replace(
+            />/g,
+            "&gt;"
+        )
 
-        .replace(/"/g,"&quot;")
+        .replace(
+            /"/g,
+            "&quot;"
+        )
 
-        .replace(/'/g,"&#039;");
+        .replace(
+            /'/g,
+            "&#039;"
+        );
 
 }
 
 </script>
+
 
 </body>
 
