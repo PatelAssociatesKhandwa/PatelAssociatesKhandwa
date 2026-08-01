@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,7 +9,6 @@
 content="width=device-width, initial-scale=1.0">
 
 <title>PATEL ASSOCIATES - Verification</title>
-
 
 <style>
 
@@ -43,6 +41,30 @@ body{
     box-shadow:0 0 15px rgba(0,0,0,.15);
 
 }
+
+/* =========================
+   LOGO
+========================= */
+
+.logo{
+
+    display:block;
+
+    width:140px;
+
+    height:auto;
+
+    max-height:140px;
+
+    object-fit:contain;
+
+    margin:0 auto 15px auto;
+
+}
+
+/* =========================
+   HEADINGS
+========================= */
 
 h1{
 
@@ -186,6 +208,55 @@ h2{
 
 }
 
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:600px){
+
+    .container{
+
+        margin:15px;
+
+        padding:20px;
+
+    }
+
+    .logo{
+
+        width:120px;
+
+        max-height:120px;
+
+    }
+
+    h1{
+
+        font-size:27px;
+
+    }
+
+    h2{
+
+        font-size:20px;
+
+    }
+
+    .verified{
+
+        font-size:22px;
+
+    }
+
+    .id{
+
+        font-size:22px;
+
+    }
+
+}
+
 </style>
 
 </head>
@@ -195,6 +266,17 @@ h2{
 
 
 <div class="container">
+
+
+<!-- =========================
+     PATEL ASSOCIATES LOGO
+========================= -->
+
+<img
+    src="./Patel_Associates.png"
+    alt="PATEL ASSOCIATES Logo"
+    class="logo"
+>
 
 
 <h1>
@@ -237,7 +319,6 @@ Online Document Verification System
    URL से Verification ID प्राप्त करें
 ================================================== */
 
-
 const urlParams =
     new URLSearchParams(
         window.location.search
@@ -252,7 +333,6 @@ const verificationID =
    ID नहीं मिली
 ================================================== */
 
-
 if(!verificationID){
 
     showError(
@@ -265,7 +345,6 @@ if(!verificationID){
 /* ==================================================
    DATA.JSON LOAD करें
 ================================================== */
-
 
 else{
 
@@ -311,22 +390,7 @@ else{
    RECORD FIND करें
 ================================================== */
 
-
 function findRecord(data){
-
-
-    /*
-       data.json एक ARRAY है।
-
-       Example:
-
-       [
-          {
-             "id":"PA-2026-0001"
-          }
-       ]
-    */
-
 
     if(!Array.isArray(data)){
 
@@ -338,8 +402,6 @@ function findRecord(data){
 
     }
 
-
-    /* ID से record खोजें */
 
     const record =
         data.find(function(item){
@@ -368,7 +430,6 @@ function findRecord(data){
     /* ==================================================
        RECORD मिल गया
     ================================================== */
-
 
     document.getElementById(
         "loading"
@@ -493,9 +554,7 @@ function findRecord(data){
    ERROR MESSAGE
 ================================================== */
 
-
 function showError(message){
-
 
     document.getElementById(
         "loading"
@@ -533,9 +592,7 @@ function showError(message){
    SECURITY FUNCTION
 ================================================== */
 
-
 function escapeHTML(value){
-
 
     if(
         value === undefined ||
@@ -582,4 +639,3 @@ function escapeHTML(value){
 </body>
 
 </html>
-```
