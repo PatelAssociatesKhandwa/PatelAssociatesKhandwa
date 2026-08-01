@@ -1,14 +1,16 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
 <title>PATEL ASSOCIATES - ID Generator</title>
 
-<!-- QR Code Library -->
+<!-- QR CODE LIBRARY -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <style>
@@ -31,6 +33,10 @@ body{
 h1{
     text-align:center;
     color:#0b5ed7;
+}
+
+h2{
+    text-align:center;
 }
 
 label{
@@ -65,78 +71,188 @@ button:hover{
 }
 
 #generated{
+
     margin-top:25px;
+
     padding:20px;
+
     background:#e8f5e9;
+
     border:1px solid #28a745;
+
     border-radius:8px;
+
     display:none;
+
 }
 
 #verificationID{
+
     font-size:24px;
+
     font-weight:bold;
+
     color:#198754;
+
     text-align:center;
+
     margin-top:10px;
+
     margin-bottom:20px;
+
+    word-break:break-word;
+
 }
 
 #verificationLink{
+
     background:white;
+
 }
 
 #qrcode{
+
     margin:20px auto;
-    width:200px;
-    min-height:200px;
+
+    width:220px;
+
+    min-height:220px;
+
     display:flex;
+
     justify-content:center;
+
     align-items:center;
+
     background:white;
+
     padding:10px;
+
     border-radius:5px;
+
 }
 
 #record{
+
     text-align:left;
+
     background:#f5f5f5;
+
     padding:15px;
+
     overflow:auto;
+
     white-space:pre-wrap;
+
     word-break:break-word;
+
 }
 
 .success{
+
     color:#198754;
+
     font-weight:bold;
+
     text-align:center;
+
 }
 
 .small-text{
+
     font-size:13px;
+
     color:#555;
+
     text-align:center;
+
+}
+
+.error{
+
+    color:#dc3545;
+
+    font-weight:bold;
+
+    text-align:center;
+
+    margin-top:15px;
+
+}
+
+.loading{
+
+    color:#0b5ed7;
+
+    font-weight:bold;
+
+    text-align:center;
+
+    margin-top:15px;
+
+}
+
+
+/* MOBILE */
+
+@media(max-width:600px){
+
+    .container{
+
+        margin:15px;
+
+        padding:20px;
+
+    }
+
+    h1{
+
+        font-size:27px;
+
+    }
+
+    #verificationID{
+
+        font-size:21px;
+
+    }
+
+    #qrcode{
+
+        width:210px;
+
+        min-height:210px;
+
+    }
+
 }
 
 </style>
 
 </head>
 
+
 <body>
+
 
 <div class="container">
 
-<h1>PATEL ASSOCIATES</h1>
 
-<h2 style="text-align:center;">
+<h1>
+PATEL ASSOCIATES
+</h1>
+
+
+<h2>
 Verification ID Generator
 </h2>
 
 
 <!-- OWNER NAME -->
 
-<label>Owner Name</label>
+<label>
+Owner Name
+</label>
 
 <input
     type="text"
@@ -147,7 +263,9 @@ Verification ID Generator
 
 <!-- OWNER ADDRESS -->
 
-<label>Owner Address</label>
+<label>
+Owner Address
+</label>
 
 <input
     type="text"
@@ -158,7 +276,9 @@ Verification ID Generator
 
 <!-- REPORT TYPE -->
 
-<label>Report Type</label>
+<label>
+Report Type
+</label>
 
 <select id="reportType">
 
@@ -191,12 +311,19 @@ Verification ID Generator
 
 <!-- ISSUE DATE -->
 
-<label>Issue Date</label>
+<label>
+Issue Date
+</label>
 
 <input
     type="date"
     id="issueDate"
 >
+
+
+<!-- ERROR / STATUS -->
+
+<div id="message"></div>
 
 
 <!-- GENERATE BUTTON -->
@@ -212,8 +339,11 @@ Verification ID Generator
 
 <div id="generated">
 
+
     <h3 class="success">
+
         ✅ Verification ID Generated
+
     </h3>
 
 
@@ -222,6 +352,7 @@ Verification ID Generator
     <h3>
         Verification ID
     </h3>
+
 
     <div id="verificationID"></div>
 
@@ -238,6 +369,7 @@ Verification ID Generator
     <h3>
         🔗 Verification Link
     </h3>
+
 
     <input
         type="text"
@@ -261,6 +393,7 @@ Verification ID Generator
 
     </h3>
 
+
     <div id="qrcode"></div>
 
 
@@ -277,6 +410,7 @@ Verification ID Generator
         📄 Complete Record
     </h3>
 
+
     <pre id="record"></pre>
 
 
@@ -286,7 +420,16 @@ Verification ID Generator
 
     </button>
 
+
+    <p class="small-text">
+
+        यह Record data.json में manually add करने के लिए तैयार है।
+
+    </p>
+
+
 </div>
+
 
 </div>
 
@@ -294,26 +437,44 @@ Verification ID Generator
 <script>
 
 
-/* ==========================================
-   GENERATE VERIFICATION ID
-========================================== */
+/* ==================================================
+   GENERATE UNIQUE RANDOM VERIFICATION ID
+================================================== */
 
-function generateID(){
+async function generateID(){
+
+
+    /* ==========================================
+       GET FORM DATA
+    ========================================== */
 
     let ownerName =
-        document.getElementById("ownerName").value.trim();
+        document.getElementById(
+            "ownerName"
+        ).value.trim();
+
 
     let ownerAddress =
-        document.getElementById("ownerAddress").value.trim();
+        document.getElementById(
+            "ownerAddress"
+        ).value.trim();
+
 
     let reportType =
-        document.getElementById("reportType").value;
+        document.getElementById(
+            "reportType"
+        ).value;
+
 
     let issueDate =
-        document.getElementById("issueDate").value;
+        document.getElementById(
+            "issueDate"
+        ).value;
 
 
-    /* CHECK ALL FIELDS */
+    /* ==========================================
+       CHECK ALL FIELDS
+    ========================================== */
 
     if(
         ownerName === "" ||
@@ -322,7 +483,9 @@ function generateID(){
         issueDate === ""
     ){
 
-        alert("कृपया सभी जानकारी भरें।");
+        alert(
+            "कृपया सभी जानकारी भरें।"
+        );
 
         return;
 
@@ -330,60 +493,253 @@ function generateID(){
 
 
     /* ==========================================
-       CREATE UNIQUE ID
+       SHOW LOADING
     ========================================== */
 
-    let year =
-        new Date().getFullYear();
+    let message =
+        document.getElementById(
+            "message"
+        );
 
+
+    message.innerHTML =
+        '<div class="loading">🔄 Existing IDs check की जा रही हैं...</div>';
+
+
+    document.getElementById(
+        "generated"
+    ).style.display = "none";
+
+
+    /* ==========================================
+       LOAD EXISTING DATA.JSON
+    ========================================== */
+
+    let existingIDs = [];
+
+
+    try{
+
+
+        let response =
+            await fetch(
+                "data.json?v=" +
+                Date.now()
+            );
+
+
+        if(response.ok){
+
+
+            let data =
+                await response.json();
+
+
+            /*
+               Normal data.json format:
+
+               [
+                 {
+                   "id":"PA-XXXX-XXXX"
+                 }
+               ]
+            */
+
+
+            if(Array.isArray(data)){
+
+
+                existingIDs =
+                    data
+
+                    .map(function(item){
+
+                        return String(
+                            item.id || ""
+                        ).trim().toUpperCase();
+
+                    })
+
+                    .filter(function(id){
+
+                        return id !== "";
+
+                    });
+
+            }
+
+
+        }
+
+
+    }
+
+    catch(error){
+
+
+        console.error(
+            "data.json check error:",
+            error
+        );
+
+
+        message.innerHTML =
+            '<div class="error">⚠️ data.json load नहीं हो सकी।</div>';
+
+
+        return;
+
+    }
+
+
+    /* ==========================================
+       CHARACTERS FOR RANDOM ID
+    ========================================== */
 
     let characters =
         "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 
 
-    let randomID = "";
+    /* ==========================================
+       CREATE UNIQUE ID
+    ========================================== */
+
+    let finalID = "";
+
+    let duplicate = true;
 
 
-    for(let i = 0; i < 4; i++){
+    /*
+       Maximum attempts
 
-        randomID += characters.charAt(
+       ताकि किसी unexpected problem में
+       browser infinite loop में न जाए।
+    */
 
-            Math.floor(
-                Math.random() * characters.length
-            )
+    let attempts = 0;
 
-        );
+    let maxAttempts = 1000;
+
+
+    while(
+        duplicate &&
+        attempts < maxAttempts
+    ){
+
+
+        attempts++;
+
+
+        let part1 = "";
+
+        let part2 = "";
+
+
+        /* ======================================
+           FIRST 4 RANDOM CHARACTERS
+        ====================================== */
+
+        for(
+            let i = 0;
+            i < 4;
+            i++
+        ){
+
+            part1 +=
+                characters.charAt(
+
+                    Math.floor(
+                        Math.random() *
+                        characters.length
+                    )
+
+                );
+
+        }
+
+
+        /* ======================================
+           SECOND 4 RANDOM CHARACTERS
+        ====================================== */
+
+        for(
+            let i = 0;
+            i < 4;
+            i++
+        ){
+
+            part2 +=
+                characters.charAt(
+
+                    Math.floor(
+                        Math.random() *
+                        characters.length
+                    )
+
+                );
+
+        }
+
+
+        /* ======================================
+           FINAL ID
+        ====================================== */
+
+        finalID =
+            "PA-" +
+            part1 +
+            "-" +
+            part2;
+
+
+        /* ======================================
+           CHECK DUPLICATE
+        ====================================== */
+
+        duplicate =
+            existingIDs.includes(
+                finalID.toUpperCase()
+            );
+
 
     }
 
 
-    /*
-       Example:
+    /* ==========================================
+       IF UNIQUE ID NOT FOUND
+    ========================================== */
 
-       PA-2026-A7K9
-    */
+    if(
+        duplicate
+    ){
 
-    let finalID =
-        "PA-" + year + "-" + randomID;
+        message.innerHTML =
+            '<div class="error">❌ Unique ID generate नहीं हो सकी। कृपया फिर से कोशिश करें।</div>';
+
+        return;
+
+    }
 
 
     /* ==========================================
        CREATE VERIFICATION LINK
     ========================================== */
 
+    let verificationPath =
+        window.location.pathname
+            .replace(
+                "admin.html",
+                "verify.html"
+            );
+
+
     let verificationLink =
         window.location.origin +
-        window.location.pathname
-            .replace("admin.html","verify.html") +
+        verificationPath +
         "?id=" +
-        encodeURIComponent(finalID);
-
-
-    /*
-       Example:
-
-       https://yourwebsite.com/verify.html?id=PA-2026-A7K9
-    */
+        encodeURIComponent(
+            finalID
+        );
 
 
     /* ==========================================
@@ -392,17 +748,23 @@ function generateID(){
 
     let record = {
 
-        id: finalID,
+        id:
+            finalID,
 
-        ownerName: ownerName,
+        ownerName:
+            ownerName,
 
-        ownerAddress: ownerAddress,
+        ownerAddress:
+            ownerAddress,
 
-        reportType: reportType,
+        reportType:
+            reportType,
 
-        issueDate: issueDate,
+        issueDate:
+            issueDate,
 
-        status: "VERIFIED"
+        status:
+            "VERIFIED"
 
     };
 
@@ -413,7 +775,8 @@ function generateID(){
 
     document.getElementById(
         "verificationID"
-    ).innerText = finalID;
+    ).innerText =
+        finalID;
 
 
     /* ==========================================
@@ -422,7 +785,8 @@ function generateID(){
 
     document.getElementById(
         "verificationLink"
-    ).value = verificationLink;
+    ).value =
+        verificationLink;
 
 
     /* ==========================================
@@ -432,7 +796,11 @@ function generateID(){
     document.getElementById(
         "record"
     ).innerText =
-        JSON.stringify(record, null, 2);
+        JSON.stringify(
+            record,
+            null,
+            2
+        );
 
 
     /* ==========================================
@@ -441,7 +809,8 @@ function generateID(){
 
     document.getElementById(
         "qrcode"
-    ).innerHTML = "";
+    ).innerHTML =
+        "";
 
 
     /* ==========================================
@@ -450,15 +819,20 @@ function generateID(){
 
     new QRCode(
 
-        document.getElementById("qrcode"),
+        document.getElementById(
+            "qrcode"
+        ),
 
         {
 
-            text: verificationLink,
+            text:
+                verificationLink,
 
-            width:200,
+            width:
+                200,
 
-            height:200
+            height:
+                200
 
         }
 
@@ -466,22 +840,31 @@ function generateID(){
 
 
     /* ==========================================
-       SHOW RESULT BOX
+       SHOW RESULT
     ========================================== */
 
     document.getElementById(
         "generated"
-    ).style.display = "block";
+    ).style.display =
+        "block";
 
+
+    /* ==========================================
+       CLEAR MESSAGE
+    ========================================== */
+
+    message.innerHTML =
+        '<div class="success">✅ Unique ID successfully generated.</div>';
 
 }
 
 
-/* ==========================================
+/* ==================================================
    COPY VERIFICATION ID
-========================================== */
+================================================== */
 
 function copyID(){
+
 
     let id =
         document.getElementById(
@@ -489,21 +872,25 @@ function copyID(){
         ).innerText;
 
 
-    navigator.clipboard.writeText(id);
+    navigator.clipboard.writeText(
+        id
+    );
 
 
     alert(
-        "Verification ID copied: " + id
+        "Verification ID copied: " +
+        id
     );
 
 }
 
 
-/* ==========================================
+/* ==================================================
    COPY VERIFICATION LINK
-========================================== */
+================================================== */
 
 function copyLink(){
+
 
     let link =
         document.getElementById(
@@ -511,7 +898,9 @@ function copyLink(){
         ).value;
 
 
-    navigator.clipboard.writeText(link);
+    navigator.clipboard.writeText(
+        link
+    );
 
 
     alert(
@@ -521,11 +910,12 @@ function copyLink(){
 }
 
 
-/* ==========================================
+/* ==================================================
    COPY COMPLETE RECORD
-========================================== */
+================================================== */
 
 function copyRecord(){
+
 
     let record =
         document.getElementById(
@@ -533,7 +923,9 @@ function copyRecord(){
         ).innerText;
 
 
-    navigator.clipboard.writeText(record);
+    navigator.clipboard.writeText(
+        record
+    );
 
 
     alert(
@@ -543,11 +935,12 @@ function copyRecord(){
 }
 
 
-/* ==========================================
+/* ==================================================
    DOWNLOAD QR CODE
-========================================== */
+================================================== */
 
 function downloadQR(){
+
 
     let qrImage =
         document.querySelector(
@@ -557,9 +950,11 @@ function downloadQR(){
 
     if(!qrImage){
 
+
         alert(
             "पहले Verification ID Generate करें।"
         );
+
 
         return;
 
@@ -567,7 +962,9 @@ function downloadQR(){
 
 
     let downloadLink =
-        document.createElement("a");
+        document.createElement(
+            "a"
+        );
 
 
     downloadLink.href =
@@ -576,9 +973,11 @@ function downloadQR(){
 
     downloadLink.download =
         "PATEL-ASSOCIATES-" +
+
         document.getElementById(
             "verificationID"
         ).innerText +
+
         ".png";
 
 
@@ -588,6 +987,7 @@ function downloadQR(){
 
 </script>
 
+
 </body>
+
 </html>
-```
