@@ -8,7 +8,7 @@
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
 
-<title>PATEL ASSOCIATES - Verification</title>
+<title>PATEL ASSOCIATES - Online Verification Portal</title>
 
 <style>
 
@@ -42,29 +42,23 @@ body{
 
 }
 
-/* =========================
-   LOGO
-========================= */
-
 .logo{
 
-    display:block;
+    text-align:center;
 
-    width:140px;
-
-    height:auto;
-
-    max-height:140px;
-
-    object-fit:contain;
-
-    margin:0 auto 15px auto;
+    margin-bottom:10px;
 
 }
 
-/* =========================
-   HEADINGS
-========================= */
+.logo img{
+
+    max-width:180px;
+
+    max-height:100px;
+
+    object-fit:contain;
+
+}
 
 h1{
 
@@ -72,7 +66,7 @@ h1{
 
     color:#0b5ed7;
 
-    margin-bottom:5px;
+    margin:5px 0;
 
 }
 
@@ -93,6 +87,8 @@ h2{
     padding:25px;
 
     font-size:18px;
+
+    color:#0b5ed7;
 
 }
 
@@ -147,6 +143,8 @@ h2{
     color:#198754;
 
     margin:20px 0;
+
+    word-break:break-word;
 
 }
 
@@ -208,55 +206,6 @@ h2{
 
 }
 
-
-/* =========================
-   MOBILE
-========================= */
-
-@media(max-width:600px){
-
-    .container{
-
-        margin:15px;
-
-        padding:20px;
-
-    }
-
-    .logo{
-
-        width:120px;
-
-        max-height:120px;
-
-    }
-
-    h1{
-
-        font-size:27px;
-
-    }
-
-    h2{
-
-        font-size:20px;
-
-    }
-
-    .verified{
-
-        font-size:22px;
-
-    }
-
-    .id{
-
-        font-size:22px;
-
-    }
-
-}
-
 </style>
 
 </head>
@@ -268,15 +217,17 @@ h2{
 <div class="container">
 
 
-<!-- =========================
-     PATEL ASSOCIATES LOGO
-========================= -->
+<!-- LOGO -->
 
-<img
-    src="./Patel_Associates.png"
-    alt="PATEL ASSOCIATES Logo"
-    class="logo"
->
+<div class="logo">
+
+    <img
+        src="Patel_Associates.jpg"
+        alt="PATEL ASSOCIATES"
+        onerror="this.style.display='none';"
+    >
+
+</div>
 
 
 <h1>
@@ -311,12 +262,19 @@ Online Document Verification System
 </div>
 
 
-
 <script>
 
 
 /* ==================================================
-   URL से Verification ID प्राप्त करें
+   GOOGLE APPS SCRIPT WEB APP URL
+================================================== */
+
+const API_URL =
+"https://script.google.com/macros/s/AKfycbylNwNTKUAY9MyAoZSFaq5BbLbR6lpbthwy9TO-mXhUkmgRGVaPYdCCznmzsXVzrDGf/exec";
+
+
+/* ==================================================
+   GET VERIFICATION ID FROM URL
 ================================================== */
 
 const urlParams =
@@ -330,7 +288,7 @@ const verificationID =
 
 
 /* ==================================================
-   ID नहीं मिली
+   CHECK ID
 ================================================== */
 
 if(!verificationID){
@@ -341,24 +299,36 @@ if(!verificationID){
 
 }
 
-
-/* ==================================================
-   DATA.JSON LOAD करें
-================================================== */
-
 else{
 
-    fetch(
-        "data.json?time=" +
-        Date.now()
-    )
+    loadVerificationRecord();
+
+}
+
+
+/* ==================================================
+   LOAD RECORD
+================================================== */
+
+function loadVerificationRecord(){
+
+
+    const apiURL =
+        API_URL +
+        "?id=" +
+        encodeURIComponent(
+            verificationID
+        );
+
+
+    fetch(apiURL)
 
     .then(function(response){
 
         if(!response.ok){
 
             throw new Error(
-                "data.json load नहीं हुई।"
+                "API response error"
             );
 
         }
@@ -369,16 +339,42 @@ else{
 
     .then(function(data){
 
-        findRecord(data);
+        console.log(
+            "API Response:",
+            data
+        );
+
+
+        if(
+            data.success &&
+            data.record
+        ){
+
+            showRecord(
+                data.record
+            );
+
+        }
+
+        else{
+
+            showError(
+                "यह Verification ID database में नहीं मिली।"
+            );
+
+        }
 
     })
 
     .catch(function(error){
 
-        console.error(error);
+        console.error(
+            error
+        );
+
 
         showError(
-            "data.json load नहीं हो सकी।"
+            "Verification data load नहीं हो सकी।"
         );
 
     });
@@ -387,63 +383,25 @@ else{
 
 
 /* ==================================================
-   RECORD FIND करें
+   SHOW VERIFIED RECORD
 ================================================== */
 
-function findRecord(data){
+function showRecord(record){
 
-    if(!Array.isArray(data)){
-
-        showError(
-            "data.json का format गलत है।"
-        );
-
-        return;
-
-    }
-
-
-    const record =
-        data.find(function(item){
-
-            return String(item.id).trim()
-                === String(verificationID).trim();
-
-        });
-
-
-    /* ==================================================
-       RECORD नहीं मिला
-    ================================================== */
-
-    if(!record){
-
-        showError(
-            "यह Verification ID data.json में नहीं मिली।"
-        );
-
-        return;
-
-    }
-
-
-    /* ==================================================
-       RECORD मिल गया
-    ================================================== */
 
     document.getElementById(
         "loading"
-    ).style.display = "none";
+    ).style.display =
+        "none";
 
 
     document.getElementById(
         "result"
     ).innerHTML = `
 
-
         <div class="verified">
 
-            ✓ VERIFIED
+            ✓ DOCUMENT VERIFIED
 
         </div>
 
@@ -461,7 +419,9 @@ function findRecord(data){
             <div class="row">
 
                 <div class="label">
+
                     Owner Name
+
                 </div>
 
                 <div class="value">
@@ -478,7 +438,9 @@ function findRecord(data){
             <div class="row">
 
                 <div class="label">
+
                     Owner Address
+
                 </div>
 
                 <div class="value">
@@ -495,7 +457,9 @@ function findRecord(data){
             <div class="row">
 
                 <div class="label">
+
                     Report Type
+
                 </div>
 
                 <div class="value">
@@ -512,7 +476,9 @@ function findRecord(data){
             <div class="row">
 
                 <div class="label">
+
                     Issue Date
+
                 </div>
 
                 <div class="value">
@@ -529,7 +495,9 @@ function findRecord(data){
             <div class="row">
 
                 <div class="label">
+
                     Status
+
                 </div>
 
                 <div class="value">
@@ -551,20 +519,21 @@ function findRecord(data){
 
 
 /* ==================================================
-   ERROR MESSAGE
+   ERROR
 ================================================== */
 
 function showError(message){
 
+
     document.getElementById(
         "loading"
-    ).style.display = "none";
+    ).style.display =
+        "none";
 
 
     document.getElementById(
         "result"
     ).innerHTML = `
-
 
         <div class="notverified">
 
@@ -589,7 +558,7 @@ function showError(message){
 
 
 /* ==================================================
-   SECURITY FUNCTION
+   SECURITY
 ================================================== */
 
 function escapeHTML(value){
@@ -602,7 +571,6 @@ function escapeHTML(value){
         return "";
 
     }
-
 
     return String(value)
 
