@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
@@ -11,9 +10,7 @@ content="width=device-width, initial-scale=1.0">
 
 <title>PATEL ASSOCIATES - Verification Generator</title>
 
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-
 
 <style>
 
@@ -22,212 +19,152 @@ content="width=device-width, initial-scale=1.0">
 }
 
 body{
-
     margin:0;
-
     font-family:Arial,sans-serif;
-
     background:#f5f5f5;
-
 }
 
 .container{
-
     max-width:600px;
-
     margin:30px auto;
-
     background:white;
-
     padding:30px;
-
     border-radius:12px;
-
     box-shadow:0 0 15px rgba(0,0,0,.15);
-
 }
 
 h1{
-
     text-align:center;
-
     color:#0b5ed7;
-
+    margin-bottom:5px;
 }
 
 h2{
-
     text-align:center;
-
+    margin-top:5px;
+    color:#333;
 }
 
 label{
-
     display:block;
-
     margin-top:18px;
-
     font-weight:bold;
-
 }
 
 input,
 select{
-
     width:100%;
-
     padding:13px;
-
     margin-top:7px;
-
     font-size:16px;
-
     border:1px solid #ccc;
-
-    border-radius:5px;
-
+    border-radius:6px;
 }
 
 button{
-
     width:100%;
-
     padding:14px;
-
     margin-top:20px;
-
     font-size:17px;
-
     background:#0b5ed7;
-
     color:white;
-
     border:none;
-
     border-radius:6px;
-
     cursor:pointer;
-
 }
 
 button:hover{
-
     background:#084298;
+}
 
+button:disabled{
+    background:#999;
+    cursor:not-allowed;
 }
 
 #generated{
-
     display:none;
-
     margin-top:25px;
-
     padding:20px;
-
     background:#e8f5e9;
-
     border:1px solid #28a745;
-
     border-radius:8px;
-
 }
 
 #verificationID{
-
     text-align:center;
-
     font-size:25px;
-
     font-weight:bold;
-
     color:#198754;
-
     margin:15px 0;
-
     word-break:break-word;
-
 }
 
 #verificationLink{
-
     background:white;
-
 }
 
 #qrcode{
-
     width:220px;
-
     min-height:220px;
-
     margin:20px auto;
-
     padding:10px;
-
     background:white;
-
     display:flex;
-
     justify-content:center;
-
     align-items:center;
-
 }
 
 #record{
-
     background:#f5f5f5;
-
     padding:15px;
-
     white-space:pre-wrap;
-
     word-break:break-word;
-
+    border-radius:6px;
 }
 
 .success{
-
     color:#198754;
-
     font-weight:bold;
-
     text-align:center;
-
 }
 
 .error{
-
     color:#dc3545;
-
     font-weight:bold;
-
     text-align:center;
-
     margin-top:15px;
-
+    line-height:1.5;
 }
 
 .loading{
-
     color:#0b5ed7;
-
     font-weight:bold;
-
     text-align:center;
-
     margin-top:15px;
+    line-height:1.5;
+}
 
+.info{
+    color:#555;
+    text-align:center;
+    font-size:14px;
+    margin-top:10px;
 }
 
 
-/* LOGIN */
+/* ==========================================
+   LOGIN SCREEN
+========================================== */
 
 #loginScreen{
 
     position:fixed;
 
-    inset:0;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
 
     background:#f5f5f5;
 
@@ -238,7 +175,6 @@ button:hover{
     align-items:center;
 
     z-index:99999;
-
 }
 
 .loginBox{
@@ -256,58 +192,51 @@ button:hover{
     box-shadow:0 0 20px rgba(0,0,0,.2);
 
     text-align:center;
-
 }
 
 .loginBox h2{
-
     color:#0b5ed7;
+    margin-bottom:5px;
+}
 
+.loginBox h3{
+    margin-top:5px;
+}
+
+.loginBox p{
+    color:#555;
 }
 
 .loginBox input{
-
     width:100%;
-
     padding:13px;
-
     font-size:17px;
-
     margin-top:10px;
-
-}
-
-.loginBox button{
-
-    margin-top:15px;
-
 }
 
 #loginError{
-
     color:#dc3545;
-
     font-weight:bold;
-
 }
 
 
-/* MOBILE */
+/* ==========================================
+   MOBILE
+========================================== */
 
 @media(max-width:600px){
 
     .container{
-
         margin:15px;
-
         padding:20px;
-
     }
 
     h1{
-
         font-size:27px;
+    }
 
+    #verificationID{
+        font-size:21px;
     }
 
 }
@@ -320,329 +249,261 @@ button:hover{
 <body>
 
 
-<!-- LOGIN -->
+<!-- ==================================================
+     PASSWORD LOGIN
+================================================== -->
 
 <div id="loginScreen">
 
-<div class="loginBox">
+    <div class="loginBox">
 
-<h2>
+        <h2>
+            🔐 PATEL ASSOCIATES
+        </h2>
 
-🔐 PATEL ASSOCIATES
+        <h3>
+            Admin Login
+        </h3>
 
-</h2>
+        <p>
+            Verification Generator खोलने के लिए Password डालें
+        </p>
 
-<h3>
+        <input
+            type="password"
+            id="adminPassword"
+            placeholder="Enter Password"
+            onkeydown="if(event.key==='Enter') checkPassword()"
+        >
 
-Admin Login
+        <button onclick="checkPassword()">
+            🔓 Login
+        </button>
 
-</h3>
+        <p id="loginError"></p>
 
-<p>
-
-Verification Generator खोलने के लिए Password डालें
-
-</p>
-
-
-<input
-
-type="password"
-
-id="adminPassword"
-
-placeholder="Enter Password"
-
-onkeydown="if(event.key==='Enter') checkPassword()"
-
->
-
-
-<button onclick="checkPassword()">
-
-🔓 Login
-
-</button>
-
-
-<p id="loginError"></p>
-
-</div>
+    </div>
 
 </div>
 
 
-
-<!-- MAIN -->
+<!-- ==================================================
+     MAIN CONTAINER
+================================================== -->
 
 <div class="container">
 
 
 <h1>
-
 PATEL ASSOCIATES
-
 </h1>
 
-
 <h2>
-
 Verification ID Generator
-
 </h2>
 
 
-<label>
+<!-- OWNER NAME -->
 
+<label>
 Owner Name
-
 </label>
 
-
 <input
-
-type="text"
-
-id="ownerName"
-
-placeholder="Enter Owner Name"
-
+    type="text"
+    id="ownerName"
+    placeholder="Enter Owner Name"
 >
 
 
-<label>
+<!-- OWNER ADDRESS -->
 
+<label>
 Owner Address
-
 </label>
 
-
 <input
-
-type="text"
-
-id="ownerAddress"
-
-placeholder="Enter Owner Address"
-
+    type="text"
+    id="ownerAddress"
+    placeholder="Enter Owner Address"
 >
 
 
+<!-- REPORT TYPE -->
+
 <label>
-
 Report Type
-
 </label>
-
 
 <select id="reportType">
 
-<option value="">
+    <option value="">
+        Select Report Type
+    </option>
 
-Select Report Type
+    <option value="Floor Plan">
+        Floor Plan
+    </option>
 
-</option>
+    <option value="Estimate">
+        Estimate
+    </option>
 
-<option value="Floor Plan">
+    <option value="Location Map">
+        Location Map
+    </option>
 
-Floor Plan
+    <option value="Key Plan">
+        Key Plan
+    </option>
 
-</option>
-
-<option value="Estimate">
-
-Estimate
-
-</option>
-
-<option value="Location Map">
-
-Location Map
-
-</option>
-
-<option value="Key Plan">
-
-Key Plan
-
-</option>
-
-<option value="Report">
-
-Report
-
-</option>
+    <option value="Report">
+        Report
+    </option>
 
 </select>
 
 
+<!-- ISSUE DATE -->
+
 <label>
-
 Issue Date
-
 </label>
 
-
 <input
-
-type="date"
-
-id="issueDate"
-
+    type="date"
+    id="issueDate"
 >
 
+
+<!-- STATUS MESSAGE -->
 
 <div id="message"></div>
 
 
+<!-- GENERATE BUTTON -->
+
 <button
-
-id="generateButton"
-
-onclick="generateID()"
-
+    id="generateButton"
+    onclick="generateID()"
 >
 
-🔐 Generate Verification ID
+    🔐 Generate Verification ID
 
 </button>
 
+
+<!-- ==================================================
+     GENERATED RESULT
+================================================== -->
 
 <div id="generated">
 
-
-<h3 class="success">
-
-✅ Verification ID Generated
-
-</h3>
+    <h3 class="success">
+        ✅ Verification ID Generated
+    </h3>
 
 
-<h3>
+    <h3>
+        Verification ID
+    </h3>
 
-Verification ID
-
-</h3>
-
-
-<div id="verificationID"></div>
+    <div id="verificationID"></div>
 
 
-<button onclick="copyID()">
-
-📋 Copy Verification ID
-
-</button>
+    <button onclick="copyID()">
+        📋 Copy Verification ID
+    </button>
 
 
-<h3>
+    <h3>
+        🔗 Verification Link
+    </h3>
 
-🔗 Verification Link
-
-</h3>
-
-
-<input
-
-type="text"
-
-id="verificationLink"
-
-readonly
-
->
+    <input
+        type="text"
+        id="verificationLink"
+        readonly
+    >
 
 
-<button onclick="copyLink()">
-
-📋 Copy Verification Link
-
-</button>
+    <button onclick="copyLink()">
+        📋 Copy Verification Link
+    </button>
 
 
-<h3 style="text-align:center">
-
-📱 QR Code
-
-</h3>
+    <h3 style="text-align:center">
+        📱 QR Code
+    </h3>
 
 
-<div id="qrcode"></div>
+    <div id="qrcode"></div>
 
 
-<button onclick="downloadQR()">
-
-⬇️ Download QR Code
-
-</button>
+    <button onclick="downloadQR()">
+        ⬇️ Download QR Code
+    </button>
 
 
-<h3>
-
-📄 Complete Record
-
-</h3>
+    <h3>
+        📄 Complete Record
+    </h3>
 
 
-<pre id="record"></pre>
+    <pre id="record"></pre>
 
 
-<button onclick="copyRecord()">
+    <button onclick="copyRecord()">
+        📋 Copy Record
+    </button>
 
-📋 Copy Record
 
-</button>
-
+    <p class="info">
+        यह record Google Sheet में save किया जा चुका है।
+    </p>
 
 </div>
 
 
 </div>
-
 
 
 <script>
 
 
-/* =====================================================
+/* ==================================================
    GOOGLE APPS SCRIPT WEB APP URL
-===================================================== */
+================================================== */
 
 const API_URL =
-
 "https://script.google.com/macros/s/AKfycbylNwNTKUAY9MyAoZSFaq5BbLbR6lpbthwy9TO-mXhUkmgRGVaPYdCCznmzsXVzrDGf/exec";
 
 
-/* =====================================================
+/* ==================================================
    ADMIN PASSWORD
-===================================================== */
+================================================== */
 
 const ADMIN_PASSWORD =
-
 "Anil@1234123455";
 
 
-/* =====================================================
-   LOGIN
-===================================================== */
+/* ==================================================
+   CHECK PASSWORD
+================================================== */
 
 function checkPassword(){
 
     const password =
         document.getElementById(
             "adminPassword"
-        ).value;
+        ).value.trim();
 
 
-    if(
-        password ===
-        ADMIN_PASSWORD
-    ){
+    if(password === ADMIN_PASSWORD){
 
         document.getElementById(
             "loginScreen"
-        ).style.display =
-            "none";
+        ).style.display = "none";
 
 
         sessionStorage.setItem(
@@ -669,89 +530,134 @@ function checkPassword(){
 }
 
 
-/* =====================================================
-   REMEMBER LOGIN
-===================================================== */
+/* ==================================================
+   CHECK EXISTING LOGIN
+================================================== */
 
 window.addEventListener(
+    "load",
+    function(){
 
-"load",
+        if(
+            sessionStorage.getItem(
+                "patelAdminLogin"
+            ) === "true"
+        ){
 
-function(){
+            document.getElementById(
+                "loginScreen"
+            ).style.display = "none";
 
-    if(
-
-        sessionStorage.getItem(
-            "patelAdminLogin"
-        )
-
-        ===
-
-        "true"
-
-    ){
-
-        document.getElementById(
-            "loginScreen"
-        ).style.display =
-            "none";
+        }
 
     }
-
-}
-
 );
 
 
-/* =====================================================
-   GENERATE ID
-===================================================== */
+/* ==================================================
+   RANDOM CHARACTER SET
+================================================== */
 
-function generateID(){
+const CHARACTERS =
+"ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 
+
+/* ==================================================
+   GENERATE RANDOM PART
+================================================== */
+
+function randomPart(length){
+
+    let result = "";
+
+    for(
+        let i = 0;
+        i < length;
+        i++
+    ){
+
+        result +=
+            CHARACTERS.charAt(
+
+                Math.floor(
+                    Math.random() *
+                    CHARACTERS.length
+                )
+
+            );
+
+    }
+
+    return result;
+
+}
+
+
+/* ==================================================
+   GENERATE RANDOM ID
+================================================== */
+
+function createRandomID(){
+
+    return (
+
+        "PA-" +
+
+        randomPart(4) +
+
+        "-" +
+
+        randomPart(4)
+
+    );
+
+}
+
+
+/* ==================================================
+   GENERATE VERIFICATION ID
+================================================== */
+
+async function generateID(){
+
+
+    /* ==========================================
+       GET FORM VALUES
+    ========================================== */
 
     const ownerName =
-
         document.getElementById(
             "ownerName"
         ).value.trim();
 
 
     const ownerAddress =
-
         document.getElementById(
             "ownerAddress"
         ).value.trim();
 
 
     const reportType =
-
         document.getElementById(
             "reportType"
         ).value;
 
 
     const issueDate =
-
         document.getElementById(
             "issueDate"
         ).value;
 
 
-    /* ==============================================
-       CHECK DATA
-    ============================================== */
+    /* ==========================================
+       VALIDATION
+    ========================================== */
 
     if(
-
         !ownerName ||
-
         !ownerAddress ||
-
         !reportType ||
-
         !issueDate
-
     ){
 
         alert(
@@ -763,15 +669,11 @@ function generateID(){
     }
 
 
-    const message =
-
-        document.getElementById(
-            "message"
-        );
-
+    /* ==========================================
+       UI LOCK
+    ========================================== */
 
     const button =
-
         document.getElementById(
             "generateButton"
         );
@@ -779,14 +681,8 @@ function generateID(){
 
     button.disabled = true;
 
-
     button.innerText =
-        "⏳ Record Save हो रहा है...";
-
-
-    message.innerHTML =
-
-        '<div class="loading">🔄 Google Sheet में Record save किया जा रहा है...</div>';
+        "⏳ Saving Record...";
 
 
     document.getElementById(
@@ -795,369 +691,415 @@ function generateID(){
         "none";
 
 
-    /* ==============================================
-       RANDOM ID
-    ============================================== */
-
-    const characters =
-
-        "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-
-
-    let part1 = "";
-
-    let part2 = "";
-
-
-    for(
-        let i = 0;
-        i < 4;
-        i++
-    ){
-
-        part1 +=
-
-            characters.charAt(
-
-                Math.floor(
-
-                    Math.random() *
-                    characters.length
-
-                )
-
-            );
-
-    }
-
-
-    for(
-        let i = 0;
-        i < 4;
-        i++
-    ){
-
-        part2 +=
-
-            characters.charAt(
-
-                Math.floor(
-
-                    Math.random() *
-                    characters.length
-
-                )
-
-            );
-
-    }
-
-
-    const finalID =
-
-        "PA-" +
-        part1 +
-        "-" +
-        part2;
-
-
-    /* ==============================================
-       VERIFICATION LINK
-    ============================================== */
-
-    const verificationLink =
-
-        window.location.origin +
-
-        window.location.pathname
-
-            .replace(
-                "admin.html",
-                "verify.html"
-            )
-
-        +
-
-        "?id=" +
-
-        encodeURIComponent(
-            finalID
+    const message =
+        document.getElementById(
+            "message"
         );
 
 
-    /* ==============================================
-       GOOGLE APPS SCRIPT SAVE URL
-    ============================================== */
+    message.innerHTML =
 
-    const saveURL =
+        '<div class="loading">' +
 
-        API_URL +
+        '🔄 Verification ID बनाई जा रही है...' +
 
-        "?action=save" +
+        '<br><br>' +
 
-        "&id=" +
-        encodeURIComponent(finalID) +
+        '📊 Google Sheet में Record save किया जा रहा है...' +
 
-        "&ownerName=" +
-        encodeURIComponent(ownerName) +
+        '</div>';
 
-        "&ownerAddress=" +
-        encodeURIComponent(ownerAddress) +
 
-        "&reportType=" +
-        encodeURIComponent(reportType) +
+    /* ==========================================
+       CREATE RANDOM ID
+    ========================================== */
 
-        "&issueDate=" +
-        encodeURIComponent(issueDate);
+    const finalID =
+        createRandomID();
 
 
-    /* ==============================================
-       JSONP CALLBACK NAME
-    ============================================== */
+    /* ==========================================
+       CREATE RECORD
+    ========================================== */
 
-    const callbackName =
+    const record = {
 
-        "patelSaveCallback_" +
-        Date.now();
+        id:
+            finalID,
 
+        ownerName:
+            ownerName,
 
-    /* ==============================================
-       CALLBACK FUNCTION
-    ============================================== */
+        ownerAddress:
+            ownerAddress,
 
-    window[callbackName] =
+        reportType:
+            reportType,
 
-        function(result){
+        issueDate:
+            issueDate,
 
-            console.log(
-                "Google Apps Script Response:",
-                result
-            );
+        status:
+            "VERIFIED"
 
+    };
 
-            /* ======================================
-               REMOVE SCRIPT
-            ====================================== */
 
-            if(
-                script &&
-                script.parentNode
-            ){
+    /* ==========================================
+       SEND RECORD TO GOOGLE APPS SCRIPT
+    ========================================== */
 
-                script.parentNode.removeChild(
-                    script
-                );
+    try{
 
-            }
 
+        const response =
 
-            delete window[callbackName];
+            await fetch(
 
-
-            button.disabled = false;
-
-
-            button.innerText =
-
-                "🔐 Generate Verification ID";
-
-
-            /* ======================================
-               SAVE FAILED
-            ====================================== */
-
-            if(
-                !result ||
-                !result.success
-            ){
-
-                if(
-                    result &&
-                    result.duplicate
-                ){
-
-                    message.innerHTML =
-
-                        '<div class="error">❌ Duplicate Verification ID मिली। फिर से Generate करें।</div>';
-
-                }
-
-                else{
-
-                    message.innerHTML =
-
-                        '<div class="error">❌ Google Sheet में Record Save नहीं हुआ।<br><br>' +
-
-                        escapeHTML(
-                            result
-                                ? result.message
-                                : "Unknown error"
-                        )
-
-                        +
-
-                        '</div>';
-
-                }
-
-                return;
-
-            }
-
-
-            /* ======================================
-               SHOW ID
-            ====================================== */
-
-            document.getElementById(
-                "verificationID"
-            ).innerText =
-
-                finalID;
-
-
-            /* ======================================
-               SHOW LINK
-            ====================================== */
-
-            document.getElementById(
-                "verificationLink"
-            ).value =
-
-                verificationLink;
-
-
-            /* ======================================
-               SHOW RECORD
-            ====================================== */
-
-            document.getElementById(
-                "record"
-            ).innerText =
-
-                JSON.stringify(
-
-                    result.record,
-
-                    null,
-
-                    2
-
-                );
-
-
-            /* ======================================
-               CLEAR OLD QR
-            ====================================== */
-
-            document.getElementById(
-                "qrcode"
-            ).innerHTML = "";
-
-
-            /* ======================================
-               CREATE QR
-            ====================================== */
-
-            new QRCode(
-
-                document.getElementById(
-                    "qrcode"
-                ),
+                API_URL,
 
                 {
 
-                    text:
-                        verificationLink,
+                    method:
+                        "POST",
 
-                    width:
-                        200,
+                    mode:
+                        "cors",
 
-                    height:
-                        200
+                    redirect:
+                        "follow",
+
+                    headers:{
+
+                        "Content-Type":
+                            "text/plain;charset=utf-8"
+
+                    },
+
+                    body:
+                        JSON.stringify(
+                            record
+                        )
 
                 }
 
             );
 
 
-            /* ======================================
-               SHOW RESULT
-            ====================================== */
+        /* ======================================
+           RESPONSE STATUS
+        ====================================== */
 
-            document.getElementById(
-                "generated"
-            ).style.display =
-                "block";
+        if(!response.ok){
 
+            throw new Error(
+                "HTTP Error " +
+                response.status
+            );
 
-            message.innerHTML =
-
-                '<div class="success">✅ Record Google Sheet में successfully save हो गया।</div>';
-
-        };
+        }
 
 
-    /* ==============================================
-       CREATE SCRIPT TAG
-    ============================================== */
+        /* ======================================
+           READ RESPONSE
+        ====================================== */
 
-    const script =
+        const text =
+            await response.text();
 
-        document.createElement(
-            "script"
+
+        console.log(
+            "Google Apps Script:",
+            text
         );
 
 
-    script.src =
-
-        saveURL +
-
-        "&callback=" +
-
-        callbackName;
+        let result;
 
 
-    script.onerror =
+        try{
 
-        function(){
+            result =
+                JSON.parse(text);
 
-            delete window[callbackName];
+        }
+
+        catch(parseError){
+
+            console.error(
+                "JSON Parse Error:",
+                parseError
+            );
+
+            /*
+               IMPORTANT:
+
+               यदि Google Apps Script ने
+               response redirect किया हो,
+               तो text JSON न भी हो सकता है।
+            */
+
+            throw new Error(
+                "Invalid response from Google Apps Script"
+            );
+
+        }
 
 
-            button.disabled = false;
+        /* ======================================
+           CHECK APPS SCRIPT RESULT
+        ====================================== */
+
+        if(
+            !result.success
+        ){
+
+            if(
+                result.duplicate
+            ){
+
+                message.innerHTML =
+
+                    '<div class="error">' +
+
+                    '❌ Duplicate Verification ID मिली।' +
+
+                    '<br>' +
+
+                    'कृपया फिर से Generate करें।' +
+
+                    '</div>';
+
+            }
+
+            else{
+
+                message.innerHTML =
+
+                    '<div class="error">' +
+
+                    '❌ Google Sheet में Record Save नहीं हुआ।' +
+
+                    '<br><br>' +
+
+                    escapeHTML(
+
+                        result.message ||
+
+                        "Unknown error"
+
+                    ) +
+
+                    '</div>';
+
+            }
 
 
-            button.innerText =
+            return;
 
-                "🔐 Generate Verification ID";
-
-
-            message.innerHTML =
-
-                '<div class="error">❌ Google Apps Script से connection नहीं हो पाया। Web App Deployment check करें।</div>';
-
-        };
+        }
 
 
-    document.body.appendChild(
-        script
-    );
+        /* ======================================
+           VERIFICATION LINK
+        ====================================== */
+
+        const verificationLink =
+
+            window.location.origin +
+
+            window.location.pathname
+
+                .replace(
+                    "admin.html",
+                    "verify.html"
+                ) +
+
+            "?id=" +
+
+            encodeURIComponent(
+                finalID
+            );
+
+
+        /* ======================================
+           SHOW ID
+        ====================================== */
+
+        document.getElementById(
+            "verificationID"
+        ).innerText =
+            finalID;
+
+
+        /* ======================================
+           SHOW LINK
+        ====================================== */
+
+        document.getElementById(
+            "verificationLink"
+        ).value =
+            verificationLink;
+
+
+        /* ======================================
+           SHOW RECORD
+        ====================================== */
+
+        document.getElementById(
+            "record"
+        ).innerText =
+
+            JSON.stringify(
+
+                result.record ||
+
+                record,
+
+                null,
+
+                2
+
+            );
+
+
+        /* ======================================
+           CLEAR OLD QR
+        ====================================== */
+
+        document.getElementById(
+            "qrcode"
+        ).innerHTML = "";
+
+
+        /* ======================================
+           CREATE QR
+        ====================================== */
+
+        new QRCode(
+
+            document.getElementById(
+                "qrcode"
+            ),
+
+            {
+
+                text:
+                    verificationLink,
+
+                width:
+                    200,
+
+                height:
+                    200,
+
+                correctLevel:
+                    QRCode.CorrectLevel.H
+
+            }
+
+        );
+
+
+        /* ======================================
+           SHOW RESULT
+        ====================================== */
+
+        document.getElementById(
+            "generated"
+        ).style.display =
+            "block";
+
+
+        message.innerHTML =
+
+            '<div class="success">' +
+
+            '✅ Record Google Sheet में successfully save हो गया।' +
+
+            '</div>';
+
+
+    }
+
+    catch(error){
+
+        console.error(
+            "SAVE ERROR:",
+            error
+        );
+
+
+        /*
+           IMPORTANT:
+
+           Browser में CORS/Fetch error आने पर
+           Sheet में record पहले से save हो
+           सकता है।
+
+           इसलिए user को दोबारा तुरंत
+           Generate करने के लिए नहीं कहेंगे।
+        */
+
+        message.innerHTML =
+
+            '<div class="error">' +
+
+            '⚠️ Browser को Google Apps Script का response नहीं मिला।' +
+
+            '<br><br>' +
+
+            '<b>पहले Google Sheet में देखें कि नई row बनी है या नहीं।</b>' +
+
+            '<br><br>' +
+
+            'यदि नई row बन गई है तो उसी ID का Record save हो चुका है।' +
+
+            '</div>';
+
+
+        /*
+           IMPORTANT:
+           यहां generated result automatically
+           नहीं दिखाया जाएगा क्योंकि response
+           confirm नहीं हुआ।
+        */
+
+    }
+
+    finally{
+
+        button.disabled = false;
+
+        button.innerText =
+            "🔐 Generate Verification ID";
+
+    }
 
 }
 
 
-/* =====================================================
-   COPY ID
-===================================================== */
+/* ==================================================
+   COPY VERIFICATION ID
+================================================== */
 
 function copyID(){
 
     const id =
-
         document.getElementById(
             "verificationID"
         ).innerText;
+
+
+    if(!id){
+
+        alert(
+            "Verification ID उपलब्ध नहीं है।"
+        );
+
+        return;
+
+    }
 
 
     navigator.clipboard.writeText(
@@ -1173,17 +1115,27 @@ function copyID(){
 }
 
 
-/* =====================================================
-   COPY LINK
-===================================================== */
+/* ==================================================
+   COPY VERIFICATION LINK
+================================================== */
 
 function copyLink(){
 
     const link =
-
         document.getElementById(
             "verificationLink"
         ).value;
+
+
+    if(!link){
+
+        alert(
+            "Verification Link उपलब्ध नहीं है।"
+        );
+
+        return;
+
+    }
 
 
     navigator.clipboard.writeText(
@@ -1198,17 +1150,27 @@ function copyLink(){
 }
 
 
-/* =====================================================
+/* ==================================================
    COPY RECORD
-===================================================== */
+================================================== */
 
 function copyRecord(){
 
     const record =
-
         document.getElementById(
             "record"
         ).innerText;
+
+
+    if(!record){
+
+        alert(
+            "Record उपलब्ध नहीं है।"
+        );
+
+        return;
+
+    }
 
 
     navigator.clipboard.writeText(
@@ -1223,14 +1185,13 @@ function copyRecord(){
 }
 
 
-/* =====================================================
+/* ==================================================
    DOWNLOAD QR
-===================================================== */
+================================================== */
 
 function downloadQR(){
 
     const qrImage =
-
         document.querySelector(
             "#qrcode img"
         );
@@ -1248,7 +1209,9 @@ function downloadQR(){
 
 
     const link =
-        document.createElement("a");
+        document.createElement(
+            "a"
+        );
 
 
     link.href =
@@ -1266,14 +1229,24 @@ function downloadQR(){
         ".png";
 
 
+    document.body.appendChild(
+        link
+    );
+
+
     link.click();
+
+
+    document.body.removeChild(
+        link
+    );
 
 }
 
 
-/* =====================================================
+/* ==================================================
    ESCAPE HTML
-===================================================== */
+================================================== */
 
 function escapeHTML(value){
 
@@ -1283,7 +1256,6 @@ function escapeHTML(value){
     ){
 
         return "";
-
     }
 
 
