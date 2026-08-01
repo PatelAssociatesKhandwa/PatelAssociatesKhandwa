@@ -22,5 +22,13 @@
   "reportType": "Floor Plan",
   "issueDate": "2026-07-30",
   "status": "VERIFIED"
+},
+  {
+  "id": "PA-2026-DJXE",
+  "ownerName": "MRS. SUNITA BAI  W/O SURESH KUMAR",
+  "ownerAddress": "VILL. MUNDI, P.H.N. 75, K.N. 167/1,169,170 & 171/2, WARD NO.15, REWA PURAM COLONY, COLONY LAYOUT PLOT NO. 110, TEH. MUNDI, DIST. KHANDWA [M.P.]",
+  "reportType": "Estimate",
+  "issueDate": "2026-07-27",
+  "status": "VERIFIED"
 }
 ]
