@@ -1,7 +1,7 @@
 [
   {
     "id": "PA-2026-0001",
-    "ownerName": "ANIL PATEL",
+    "ownerName": "PATEL",
     "ownerAddress": "Plot No. 123, Colony Name, District Khandwa",
     "reportType": "Floor Plan / Estimate / Location Map / Key Plan / Report",
     "issueDate": "27 July 2026",
@@ -17,26 +17,18 @@
 },
   {
   "id": "PA-2026-VKA8",
-  "ownerName": "Bhavika Patel",
+  "ownerName": "Patel",
   "ownerAddress": "Plot no. 25 Navkar Naga, Khandwa",
   "reportType": "Floor Plan",
   "issueDate": "2026-07-30",
   "status": "VERIFIED"
 },
-  {
-  "id": "PA-2026-DJXE",
-  "ownerName": "MRS. SUNITA BAI  W/O SURESH KUMAR",
-  "ownerAddress": "VILL. MUNDI, P.H.N. 75, K.N. 167/1,169,170 & 171/2, WARD NO.15, REWA PURAM COLONY, COLONY LAYOUT PLOT NO. 110, TEH. MUNDI, DIST. KHANDWA [M.P.]",
-  "reportType": "Estimate",
-  "issueDate": "2026-07-27",
-  "status": "VERIFIED"
-},
-  {
+    {
   "id": "PA-8KVU-GQT2",
-  "ownerName": "MRS. PARVATI BAI KAITHWAS W/O PREMLAL KAITHWAS",
-  "ownerAddress": "At P.H.NO. 95, KHASRA NO. 253/1, 253/2, 253/3, 253/4, 253/5 & 253/6, PLOT NO. 23, SHEET NO. 07, COLONY LAYOUT PLOT NO. E16-EWS & E17-EWS, SHIVPURAM COLONY PHASE-III, TEHSIL KHANDWA , DISTRICT KHANDWA, [M.P.]",
+  "ownerName": "MRS. Pooja ",
+  "ownerAddress": "fjgdjndndnldnb.]",
   "reportType": "Estimate",
-  "issueDate": "2026-05-13",
+  "issueDate": "2012-08-15",
   "status": "VERIFIED"
 }
 ]
