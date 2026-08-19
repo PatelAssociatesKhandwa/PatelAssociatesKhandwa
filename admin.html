@@ -40,7 +40,6 @@ h1{
 
 h2{
     text-align:center;
-    color:#333;
 }
 
 label{
@@ -113,6 +112,7 @@ button:hover{
     padding:15px;
     white-space:pre-wrap;
     word-break:break-word;
+    overflow:auto;
 }
 
 .success{
@@ -187,58 +187,43 @@ button:hover{
 }
 
 .loginBox h2{
-
     color:#0b5ed7;
-
 }
 
 .loginBox input{
-
     width:100%;
-
     padding:13px;
-
     font-size:17px;
-
     margin-top:10px;
-
 }
 
 .loginBox button{
-
     margin-top:15px;
-
 }
 
 #loginError{
-
     color:#dc3545;
-
     font-weight:bold;
-
 }
 
+
+/* ==========================================
+   MOBILE
+========================================== */
 
 @media(max-width:600px){
 
     .container{
-
         margin:15px;
-
         padding:20px;
-
     }
 
     h1{
-
         font-size:27px;
-
     }
 
     #verificationID{
-
         font-size:21px;
-
     }
 
 }
@@ -252,7 +237,7 @@ button:hover{
 
 
 <!-- ==========================================
-     PASSWORD LOGIN
+     ADMIN LOGIN
 ========================================== -->
 
 <div id="loginScreen">
@@ -279,7 +264,9 @@ button:hover{
         >
 
         <button onclick="checkPassword()">
+
             🔓 Login
+
         </button>
 
         <p id="loginError"></p>
@@ -290,7 +277,7 @@ button:hover{
 
 
 <!-- ==========================================
-     MAIN CONTAINER
+     MAIN GENERATOR
 ========================================== -->
 
 <div class="container">
@@ -340,7 +327,7 @@ Report Type
 
 <select
     id="reportType"
-    onchange="toggleEstimateAmount()"
+    onchange="checkReportType()"
 >
 
     <option value="">
@@ -371,11 +358,11 @@ Report Type
 
 
 <!-- ==========================================
-     ESTIMATE AMOUNT
+     TOTAL ESTIMATE AMOUNT
 ========================================== -->
 
 <div
-    id="estimateAmountBox"
+    id="amountBox"
     class="amount-box"
 >
 
@@ -392,7 +379,9 @@ Report Type
     >
 
     <div class="amount-note">
-        उदाहरण: 125000 या 125000.50
+
+        केवल Estimate के लिए Total Estimate Amount भरें।
+
     </div>
 
 </div>
@@ -410,7 +399,7 @@ Issue Date
 >
 
 
-<!-- MESSAGE -->
+<!-- STATUS MESSAGE -->
 
 <div id="message"></div>
 
@@ -530,7 +519,7 @@ const ADMIN_PASSWORD =
 
 
 /* ==================================================
-   LOGIN
+   CHECK PASSWORD
 ================================================== */
 
 function checkPassword(){
@@ -577,7 +566,7 @@ function checkPassword(){
 
 
 /* ==================================================
-   REMEMBER LOGIN
+   CHECK EXISTING LOGIN
 ================================================== */
 
 window.addEventListener(
@@ -587,7 +576,9 @@ window.addEventListener(
         if(
             sessionStorage.getItem(
                 "patelAdminLogin"
-            ) === "true"
+            )
+            ===
+            "true"
         ){
 
             document.getElementById(
@@ -602,10 +593,10 @@ window.addEventListener(
 
 
 /* ==================================================
-   SHOW / HIDE ESTIMATE AMOUNT
+   REPORT TYPE CHANGE
 ================================================== */
 
-function toggleEstimateAmount(){
+function checkReportType(){
 
     const reportType =
         document.getElementById(
@@ -615,7 +606,7 @@ function toggleEstimateAmount(){
 
     const amountBox =
         document.getElementById(
-            "estimateAmountBox"
+            "amountBox"
         );
 
 
@@ -626,7 +617,8 @@ function toggleEstimateAmount(){
 
 
     if(
-        reportType === "Estimate"
+        reportType ===
+        "Estimate"
     ){
 
         amountBox.style.display =
@@ -663,6 +655,10 @@ function toggleEstimateAmount(){
 async function generateID(){
 
 
+    /* ==========================================
+       GET FORM DATA
+    ========================================== */
+
     const ownerName =
         document.getElementById(
             "ownerName"
@@ -681,20 +677,20 @@ async function generateID(){
         ).value;
 
 
-    const totalEstimateAmount =
-        document.getElementById(
-            "totalEstimateAmount"
-        ).value.trim();
-
-
     const issueDate =
         document.getElementById(
             "issueDate"
         ).value;
 
 
+    const totalEstimateAmount =
+        document.getElementById(
+            "totalEstimateAmount"
+        ).value.trim();
+
+
     /* ==========================================
-       REQUIRED FIELD CHECK
+       BASIC VALIDATION
     ========================================== */
 
     if(
@@ -705,7 +701,7 @@ async function generateID(){
     ){
 
         alert(
-            "कृपया सभी जरूरी जानकारी भरें।"
+            "कृपया सभी जानकारी भरें।"
         );
 
         return;
@@ -714,20 +710,23 @@ async function generateID(){
 
 
     /* ==========================================
-       ESTIMATE AMOUNT CHECK
+       ESTIMATE AMOUNT VALIDATION
     ========================================== */
 
     if(
-        reportType === "Estimate" &&
-        (
-            !totalEstimateAmount ||
-            Number(totalEstimateAmount) < 0
-        )
+        reportType ===
+        "Estimate"
+        &&
+        !totalEstimateAmount
     ){
 
         alert(
-            "कृपया Total Estimate Amount दर्ज करें।"
+            "कृपया Total Estimate Amount भरें।"
         );
+
+        document.getElementById(
+            "totalEstimateAmount"
+        ).focus();
 
         return;
 
@@ -745,7 +744,7 @@ async function generateID(){
 
 
     message.innerHTML =
-        '<div class="loading">🔄 Verification Record Google Sheet में save किया जा रहा है...</div>';
+        '<div class="loading">🔄 Verification ID generate करके Google Sheet में save की जा रही है...</div>';
 
 
     document.getElementById(
@@ -775,10 +774,12 @@ async function generateID(){
 
         part1 +=
             characters.charAt(
+
                 Math.floor(
                     Math.random() *
                     characters.length
                 )
+
             );
 
     }
@@ -792,10 +793,12 @@ async function generateID(){
 
         part2 +=
             characters.charAt(
+
                 Math.floor(
                     Math.random() *
                     characters.length
                 )
+
             );
 
     }
@@ -809,28 +812,36 @@ async function generateID(){
 
 
     /* ==========================================
-       VERIFICATION LINK
+       CREATE VERIFICATION LINK
+       
+       IMPORTANT:
+       type parameter भी भेजा जा रहा है।
     ========================================== */
 
-    const verificationPath =
+    let verificationLink =
+        window.location.origin +
+
         window.location.pathname
             .replace(
                 "admin.html",
                 "verify.html"
-            );
+            ) +
 
-
-    const verificationLink =
-        window.location.origin +
-        verificationPath +
         "?id=" +
+
         encodeURIComponent(
             finalID
+        ) +
+
+        "&type=" +
+
+        encodeURIComponent(
+            reportType
         );
 
 
     /* ==========================================
-       RECORD
+       CREATE RECORD
     ========================================== */
 
     const record = {
@@ -847,13 +858,13 @@ async function generateID(){
         reportType:
             reportType,
 
+        issueDate:
+            issueDate,
+
         totalEstimateAmount:
             reportType === "Estimate"
                 ? totalEstimateAmount
                 : "",
-
-        issueDate:
-            issueDate,
 
         status:
             "VERIFIED"
@@ -862,11 +873,10 @@ async function generateID(){
 
 
     /* ==========================================
-       SAVE TO GOOGLE APPS SCRIPT
+       SAVE TO GOOGLE SHEET
     ========================================== */
 
     try{
-
 
         const response =
             await fetch(
@@ -915,14 +925,14 @@ async function generateID(){
 
             message.innerHTML =
 
-                '<div class="error">❌ Record Save नहीं हुआ।<br><br>' +
+                '<div class="error">❌ Google Sheet में Record Save नहीं हुआ।<br><br>' +
 
                 escapeHTML(
-                    result.message || "Unknown error"
+                    result.message ||
+                    "Unknown error"
                 ) +
 
                 '</div>';
-
 
             return;
 
@@ -930,17 +940,17 @@ async function generateID(){
 
 
         /* ======================================
-           SHOW ID
+           SHOW VERIFICATION ID
         ====================================== */
 
         document.getElementById(
             "verificationID"
         ).innerText =
-            result.record.id;
+            finalID;
 
 
         /* ======================================
-           SHOW LINK
+           SHOW VERIFICATION LINK
         ====================================== */
 
         document.getElementById(
@@ -958,7 +968,8 @@ async function generateID(){
         ).innerText =
 
             JSON.stringify(
-                result.record,
+                result.record ||
+                record,
                 null,
                 2
             );
@@ -975,7 +986,7 @@ async function generateID(){
 
 
         /* ======================================
-           CREATE QR
+           CREATE QR CODE
         ====================================== */
 
         new QRCode(
@@ -1001,7 +1012,7 @@ async function generateID(){
 
 
         /* ======================================
-           SHOW GENERATED AREA
+           SHOW RESULT
         ====================================== */
 
         document.getElementById(
@@ -1009,10 +1020,6 @@ async function generateID(){
         ).style.display =
             "block";
 
-
-        /* ======================================
-           SUCCESS
-        ====================================== */
 
         message.innerHTML =
 
@@ -1024,14 +1031,32 @@ async function generateID(){
     catch(error){
 
         console.error(
-            "SAVE ERROR:",
             error
         );
 
 
         message.innerHTML =
 
-            '<div class="error">❌ Google Apps Script से connection नहीं हो पाया।<br><br>कृपया Web App Deployment URL check करें।</div>';
+            '<div class="error">' +
+
+            '❌ Google Apps Script से connection नहीं हो पाया।' +
+
+            '<br><br>' +
+
+            'लेकिन यदि Google Sheet में नई row आ गई है, ' +
+
+            'तो record successfully save हो चुका है।' +
+
+            '<br><br>' +
+
+            'Error: ' +
+
+            escapeHTML(
+                error.message ||
+                error
+            ) +
+
+            '</div>';
 
     }
 
@@ -1039,7 +1064,7 @@ async function generateID(){
 
 
 /* ==================================================
-   COPY ID
+   COPY VERIFICATION ID
 ================================================== */
 
 function copyID(){
@@ -1064,7 +1089,7 @@ function copyID(){
 
 
 /* ==================================================
-   COPY LINK
+   COPY VERIFICATION LINK
 ================================================== */
 
 function copyLink(){
@@ -1088,7 +1113,7 @@ function copyLink(){
 
 
 /* ==================================================
-   COPY RECORD
+   COPY COMPLETE RECORD
 ================================================== */
 
 function copyRecord(){
@@ -1134,17 +1159,17 @@ function downloadQR(){
     }
 
 
-    const downloadLink =
+    const link =
         document.createElement(
             "a"
         );
 
 
-    downloadLink.href =
+    link.href =
         qrImage.src;
 
 
-    downloadLink.download =
+    link.download =
 
         "PATEL-ASSOCIATES-" +
 
@@ -1155,7 +1180,7 @@ function downloadQR(){
         ".png";
 
 
-    downloadLink.click();
+    link.click();
 
 }
 
@@ -1172,6 +1197,7 @@ function escapeHTML(value){
     ){
 
         return "";
+
     }
 
 
