@@ -40,6 +40,7 @@ h1{
 
 h2{
     text-align:center;
+    color:#333;
 }
 
 label{
@@ -72,19 +73,6 @@ button{
 
 button:hover{
     background:#084298;
-}
-
-/* ESTIMATE AMOUNT */
-
-#estimateAmountBox{
-    display:none;
-    margin-top:5px;
-}
-
-.amount-note{
-    font-size:13px;
-    color:#666;
-    margin-top:5px;
 }
 
 #generated{
@@ -147,67 +135,110 @@ button:hover{
     margin-top:15px;
 }
 
-/* LOGIN */
+.amount-box{
+    display:none;
+}
+
+.amount-note{
+    font-size:13px;
+    color:#666;
+    margin-top:5px;
+}
+
+
+/* ==========================================
+   LOGIN SCREEN
+========================================== */
 
 #loginScreen{
+
     position:fixed;
+
     inset:0;
+
     background:#f5f5f5;
+
     display:flex;
+
     justify-content:center;
+
     align-items:center;
+
     z-index:99999;
+
 }
 
 .loginBox{
+
     width:90%;
+
     max-width:400px;
+
     background:white;
+
     padding:30px;
+
     border-radius:12px;
+
     box-shadow:0 0 20px rgba(0,0,0,.2);
+
     text-align:center;
+
 }
 
 .loginBox h2{
+
     color:#0b5ed7;
+
 }
 
 .loginBox input{
+
     width:100%;
+
     padding:13px;
+
     font-size:17px;
+
     margin-top:10px;
+
 }
 
 .loginBox button{
+
     margin-top:15px;
+
 }
 
 #loginError{
+
     color:#dc3545;
+
     font-weight:bold;
+
 }
 
-.amount-preview{
-    margin-top:10px;
-    padding:10px;
-    background:#fff8e1;
-    border:1px solid #ffc107;
-    border-radius:5px;
-    color:#795548;
-    font-weight:bold;
-}
 
 @media(max-width:600px){
 
     .container{
+
         margin:15px;
+
         padding:20px;
+
     }
 
     h1{
+
         font-size:27px;
+
+    }
+
+    #verificationID{
+
+        font-size:21px;
+
     }
 
 }
@@ -220,9 +251,9 @@ button:hover{
 <body>
 
 
-<!-- ==================================================
+<!-- ==========================================
      PASSWORD LOGIN
-================================================== -->
+========================================== -->
 
 <div id="loginScreen">
 
@@ -258,224 +289,225 @@ button:hover{
 </div>
 
 
-
-<!-- ==================================================
+<!-- ==========================================
      MAIN CONTAINER
-================================================== -->
+========================================== -->
 
 <div class="container">
 
-    <h1>
-        PATEL ASSOCIATES
-    </h1>
 
-    <h2>
-        Verification ID Generator
-    </h2>
+<h1>
+PATEL ASSOCIATES
+</h1>
 
 
-    <!-- OWNER NAME -->
+<h2>
+Verification ID Generator
+</h2>
+
+
+<!-- OWNER NAME -->
+
+<label>
+Owner Name
+</label>
+
+<input
+    type="text"
+    id="ownerName"
+    placeholder="Enter Owner Name"
+>
+
+
+<!-- OWNER ADDRESS -->
+
+<label>
+Owner Address
+</label>
+
+<input
+    type="text"
+    id="ownerAddress"
+    placeholder="Enter Owner Address"
+>
+
+
+<!-- REPORT TYPE -->
+
+<label>
+Report Type
+</label>
+
+<select
+    id="reportType"
+    onchange="toggleEstimateAmount()"
+>
+
+    <option value="">
+        Select Report Type
+    </option>
+
+    <option value="Floor Plan">
+        Floor Plan
+    </option>
+
+    <option value="Estimate">
+        Estimate
+    </option>
+
+    <option value="Location Map">
+        Location Map
+    </option>
+
+    <option value="Key Plan">
+        Key Plan
+    </option>
+
+    <option value="Report">
+        Report
+    </option>
+
+</select>
+
+
+<!-- ==========================================
+     ESTIMATE AMOUNT
+========================================== -->
+
+<div
+    id="estimateAmountBox"
+    class="amount-box"
+>
 
     <label>
-        Owner Name
+        Total Estimate Amount
     </label>
 
     <input
-        type="text"
-        id="ownerName"
-        placeholder="Enter Owner Name"
+        type="number"
+        id="totalEstimateAmount"
+        placeholder="Enter Total Estimate Amount"
+        min="0"
+        step="0.01"
     >
 
-
-    <!-- OWNER ADDRESS -->
-
-    <label>
-        Owner Address
-    </label>
-
-    <input
-        type="text"
-        id="ownerAddress"
-        placeholder="Enter Owner Address"
-    >
-
-
-    <!-- REPORT TYPE -->
-
-    <label>
-        Report Type
-    </label>
-
-    <select
-        id="reportType"
-        onchange="toggleEstimateAmount()"
-    >
-
-        <option value="">
-            Select Report Type
-        </option>
-
-        <option value="Floor Plan">
-            Floor Plan
-        </option>
-
-        <option value="Estimate">
-            Estimate
-        </option>
-
-        <option value="Location Map">
-            Location Map
-        </option>
-
-        <option value="Key Plan">
-            Key Plan
-        </option>
-
-        <option value="Report">
-            Report
-        </option>
-
-    </select>
-
-
-    <!-- ==================================================
-         TOTAL ESTIMATE AMOUNT
-    ================================================== -->
-
-    <div id="estimateAmountBox">
-
-        <label>
-            Total Estimate Amount
-        </label>
-
-        <input
-            type="number"
-            id="totalEstimateAmount"
-            placeholder="Enter Total Estimate Amount"
-            min="0"
-            step="0.01"
-            oninput="showAmountPreview()"
-        >
-
-        <div class="amount-note">
-            केवल Estimate report के लिए Total Estimate Amount भरें।
-        </div>
-
-        <div
-            id="amountPreview"
-            class="amount-preview"
-            style="display:none;"
-        ></div>
-
-    </div>
-
-
-    <!-- ISSUE DATE -->
-
-    <label>
-        Issue Date
-    </label>
-
-    <input
-        type="date"
-        id="issueDate"
-    >
-
-
-    <!-- MESSAGE -->
-
-    <div id="message"></div>
-
-
-    <!-- GENERATE BUTTON -->
-
-    <button onclick="generateID()">
-
-        🔐 Generate Verification ID
-
-    </button>
-
-
-    <!-- ==================================================
-         GENERATED RESULT
-    ================================================== -->
-
-    <div id="generated">
-
-        <h3 class="success">
-
-            ✅ Verification ID Generated
-
-        </h3>
-
-
-        <h3>
-            Verification ID
-        </h3>
-
-        <div id="verificationID"></div>
-
-
-        <button onclick="copyID()">
-
-            📋 Copy Verification ID
-
-        </button>
-
-
-        <h3>
-            🔗 Verification Link
-        </h3>
-
-        <input
-            type="text"
-            id="verificationLink"
-            readonly
-        >
-
-
-        <button onclick="copyLink()">
-
-            📋 Copy Verification Link
-
-        </button>
-
-
-        <h3 style="text-align:center">
-
-            📱 QR Code
-
-        </h3>
-
-
-        <div id="qrcode"></div>
-
-
-        <button onclick="downloadQR()">
-
-            ⬇️ Download QR Code
-
-        </button>
-
-
-        <h3>
-            📄 Complete Record
-        </h3>
-
-
-        <pre id="record"></pre>
-
-
-        <button onclick="copyRecord()">
-
-            📋 Copy Record
-
-        </button>
-
+    <div class="amount-note">
+        उदाहरण: 125000 या 125000.50
     </div>
 
 </div>
 
+
+<!-- ISSUE DATE -->
+
+<label>
+Issue Date
+</label>
+
+<input
+    type="date"
+    id="issueDate"
+>
+
+
+<!-- MESSAGE -->
+
+<div id="message"></div>
+
+
+<!-- GENERATE BUTTON -->
+
+<button onclick="generateID()">
+
+    🔐 Generate Verification ID
+
+</button>
+
+
+<!-- ==========================================
+     GENERATED RESULT
+========================================== -->
+
+<div id="generated">
+
+
+    <h3 class="success">
+
+        ✅ Verification ID Generated
+
+    </h3>
+
+
+    <h3>
+        Verification ID
+    </h3>
+
+
+    <div id="verificationID"></div>
+
+
+    <button onclick="copyID()">
+
+        📋 Copy Verification ID
+
+    </button>
+
+
+    <h3>
+        🔗 Verification Link
+    </h3>
+
+
+    <input
+        type="text"
+        id="verificationLink"
+        readonly
+    >
+
+
+    <button onclick="copyLink()">
+
+        📋 Copy Verification Link
+
+    </button>
+
+
+    <h3 style="text-align:center">
+
+        📱 QR Code
+
+    </h3>
+
+
+    <div id="qrcode"></div>
+
+
+    <button onclick="downloadQR()">
+
+        ⬇️ Download QR Code
+
+    </button>
+
+
+    <h3>
+        📄 Complete Record
+    </h3>
+
+
+    <pre id="record"></pre>
+
+
+    <button onclick="copyRecord()">
+
+        📋 Copy Record
+
+    </button>
+
+
+</div>
+
+
+</div>
 
 
 <script>
@@ -555,9 +587,7 @@ window.addEventListener(
         if(
             sessionStorage.getItem(
                 "patelAdminLogin"
-            )
-            ===
-            "true"
+            ) === "true"
         ){
 
             document.getElementById(
@@ -583,13 +613,13 @@ function toggleEstimateAmount(){
         ).value;
 
 
-    const box =
+    const amountBox =
         document.getElementById(
             "estimateAmountBox"
         );
 
 
-    const amount =
+    const amountInput =
         document.getElementById(
             "totalEstimateAmount"
         );
@@ -599,24 +629,27 @@ function toggleEstimateAmount(){
         reportType === "Estimate"
     ){
 
-        box.style.display =
+        amountBox.style.display =
             "block";
+
+
+        amountInput.required =
+            true;
 
     }
 
     else{
 
-        box.style.display =
+        amountBox.style.display =
             "none";
 
 
-        amount.value = "";
+        amountInput.required =
+            false;
 
 
-        document.getElementById(
-            "amountPreview"
-        ).style.display =
-            "none";
+        amountInput.value =
+            "";
 
     }
 
@@ -624,52 +657,7 @@ function toggleEstimateAmount(){
 
 
 /* ==================================================
-   AMOUNT PREVIEW
-================================================== */
-
-function showAmountPreview(){
-
-    const value =
-        document.getElementById(
-            "totalEstimateAmount"
-        ).value;
-
-
-    const preview =
-        document.getElementById(
-            "amountPreview"
-        );
-
-
-    if(
-        value &&
-        Number(value) >= 0
-    ){
-
-        preview.innerText =
-            "Total Estimate Amount: ₹" +
-            Number(value).toLocaleString(
-                "en-IN"
-            );
-
-
-        preview.style.display =
-            "block";
-
-    }
-
-    else{
-
-        preview.style.display =
-            "none";
-
-    }
-
-}
-
-
-/* ==================================================
-   GENERATE ID
+   GENERATE VERIFICATION ID
 ================================================== */
 
 async function generateID(){
@@ -693,20 +681,20 @@ async function generateID(){
         ).value;
 
 
+    const totalEstimateAmount =
+        document.getElementById(
+            "totalEstimateAmount"
+        ).value.trim();
+
+
     const issueDate =
         document.getElementById(
             "issueDate"
         ).value;
 
 
-    const amountInput =
-        document.getElementById(
-            "totalEstimateAmount"
-        ).value;
-
-
     /* ==========================================
-       BASIC VALIDATION
+       REQUIRED FIELD CHECK
     ========================================== */
 
     if(
@@ -717,7 +705,7 @@ async function generateID(){
     ){
 
         alert(
-            "कृपया सभी आवश्यक जानकारी भरें।"
+            "कृपया सभी जरूरी जानकारी भरें।"
         );
 
         return;
@@ -726,31 +714,29 @@ async function generateID(){
 
 
     /* ==========================================
-       ESTIMATE AMOUNT VALIDATION
+       ESTIMATE AMOUNT CHECK
     ========================================== */
 
     if(
-        reportType === "Estimate"
-        &&
+        reportType === "Estimate" &&
         (
-            amountInput === ""
-            ||
-            Number(amountInput) < 0
+            !totalEstimateAmount ||
+            Number(totalEstimateAmount) < 0
         )
     ){
 
         alert(
-            "कृपया Total Estimate Amount भरें।"
+            "कृपया Total Estimate Amount दर्ज करें।"
         );
-
-        document.getElementById(
-            "totalEstimateAmount"
-        ).focus();
 
         return;
 
     }
 
+
+    /* ==========================================
+       LOADING
+    ========================================== */
 
     const message =
         document.getElementById(
@@ -759,7 +745,7 @@ async function generateID(){
 
 
     message.innerHTML =
-        '<div class="loading">🔄 Verification ID generate और Google Sheet में save की जा रही है...</div>';
+        '<div class="loading">🔄 Verification Record Google Sheet में save किया जा रहा है...</div>';
 
 
     document.getElementById(
@@ -776,9 +762,9 @@ async function generateID(){
         "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 
 
-    let firstPart = "";
+    let part1 = "";
 
-    let secondPart = "";
+    let part2 = "";
 
 
     for(
@@ -787,7 +773,7 @@ async function generateID(){
         i++
     ){
 
-        firstPart +=
+        part1 +=
             characters.charAt(
                 Math.floor(
                     Math.random() *
@@ -804,7 +790,7 @@ async function generateID(){
         i++
     ){
 
-        secondPart +=
+        part2 +=
             characters.charAt(
                 Math.floor(
                     Math.random() *
@@ -817,51 +803,30 @@ async function generateID(){
 
     const finalID =
         "PA-" +
-        firstPart +
+        part1 +
         "-" +
-        secondPart;
+        part2;
 
 
     /* ==========================================
        VERIFICATION LINK
     ========================================== */
 
-    const verificationLink =
-
-        window.location.origin +
-
+    const verificationPath =
         window.location.pathname
             .replace(
                 "admin.html",
                 "verify.html"
-            ) +
+            );
 
+
+    const verificationLink =
+        window.location.origin +
+        verificationPath +
         "?id=" +
-
         encodeURIComponent(
             finalID
         );
-
-
-    /* ==========================================
-       TOTAL ESTIMATE AMOUNT
-    ========================================== */
-
-    let totalEstimateAmount = "";
-
-
-    if(
-        reportType === "Estimate"
-    ){
-
-        totalEstimateAmount =
-            Number(
-                amountInput
-            ).toLocaleString(
-                "en-IN"
-            );
-
-    }
 
 
     /* ==========================================
@@ -882,11 +847,13 @@ async function generateID(){
         reportType:
             reportType,
 
+        totalEstimateAmount:
+            reportType === "Estimate"
+                ? totalEstimateAmount
+                : "",
+
         issueDate:
             issueDate,
-
-        totalEstimateAmount:
-            totalEstimateAmount,
 
         status:
             "VERIFIED"
@@ -895,10 +862,11 @@ async function generateID(){
 
 
     /* ==========================================
-       SAVE TO GOOGLE SHEET
+       SAVE TO GOOGLE APPS SCRIPT
     ========================================== */
 
     try{
+
 
         const response =
             await fetch(
@@ -945,25 +913,16 @@ async function generateID(){
             !result.success
         ){
 
-            if(
-                result.duplicate
-            ){
+            message.innerHTML =
 
-                message.innerHTML =
-                    '<div class="error">❌ Duplicate Verification ID मिली। कृपया फिर Generate करें।</div>';
+                '<div class="error">❌ Record Save नहीं हुआ।<br><br>' +
 
-            }
+                escapeHTML(
+                    result.message || "Unknown error"
+                ) +
 
-            else{
+                '</div>';
 
-                message.innerHTML =
-                    '<div class="error">❌ Google Sheet में Record Save नहीं हुआ।<br>' +
-                    escapeHTML(
-                        result.message || ""
-                    ) +
-                    '</div>';
-
-            }
 
             return;
 
@@ -977,7 +936,7 @@ async function generateID(){
         document.getElementById(
             "verificationID"
         ).innerText =
-            finalID;
+            result.record.id;
 
 
         /* ======================================
@@ -991,7 +950,7 @@ async function generateID(){
 
 
         /* ======================================
-           SHOW RECORD
+           SHOW COMPLETE RECORD
         ====================================== */
 
         document.getElementById(
@@ -999,7 +958,7 @@ async function generateID(){
         ).innerText =
 
             JSON.stringify(
-                result.record || record,
+                result.record,
                 null,
                 2
             );
@@ -1042,7 +1001,7 @@ async function generateID(){
 
 
         /* ======================================
-           SHOW RESULT
+           SHOW GENERATED AREA
         ====================================== */
 
         document.getElementById(
@@ -1051,21 +1010,28 @@ async function generateID(){
             "block";
 
 
+        /* ======================================
+           SUCCESS
+        ====================================== */
+
         message.innerHTML =
+
             '<div class="success">✅ Record Google Sheet में successfully save हो गया।</div>';
 
-    }
 
+    }
 
     catch(error){
 
         console.error(
+            "SAVE ERROR:",
             error
         );
 
 
         message.innerHTML =
-            '<div class="error">❌ Google Apps Script से connection नहीं हो पाया।<br><br>Web App Deployment / URL check करें।</div>';
+
+            '<div class="error">❌ Google Apps Script से connection नहीं हो पाया।<br><br>कृपया Web App Deployment URL check करें।</div>';
 
     }
 
@@ -1168,17 +1134,18 @@ function downloadQR(){
     }
 
 
-    const link =
+    const downloadLink =
         document.createElement(
             "a"
         );
 
 
-    link.href =
+    downloadLink.href =
         qrImage.src;
 
 
-    link.download =
+    downloadLink.download =
+
         "PATEL-ASSOCIATES-" +
 
         document.getElementById(
@@ -1188,7 +1155,7 @@ function downloadQR(){
         ".png";
 
 
-    link.click();
+    downloadLink.click();
 
 }
 
@@ -1205,7 +1172,6 @@ function escapeHTML(value){
     ){
 
         return "";
-
     }
 
 
@@ -1239,6 +1205,7 @@ function escapeHTML(value){
 }
 
 </script>
+
 
 </body>
 
