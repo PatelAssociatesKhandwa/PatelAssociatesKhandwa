@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 
 <head>
 
@@ -26,12 +26,14 @@ body{
 
     background:#f5f5f5;
 
+    color:#111;
+
 }
 
 
 .container{
 
-    max-width:600px;
+    max-width:650px;
 
     margin:35px auto;
 
@@ -39,12 +41,16 @@ body{
 
     padding:30px;
 
-    border-radius:12px;
+    border-radius:14px;
 
-    box-shadow:0 0 15px rgba(0,0,0,.15);
+    box-shadow:0 0 18px rgba(0,0,0,.15);
 
 }
 
+
+/* ==========================================
+   LOGO
+========================================== */
 
 .logo{
 
@@ -57,14 +63,18 @@ body{
 
 .logo img{
 
-    max-width:180px;
+    max-width:190px;
 
-    max-height:100px;
+    max-height:110px;
 
     object-fit:contain;
 
 }
 
+
+/* ==========================================
+   HEADINGS
+========================================== */
 
 h1{
 
@@ -83,10 +93,14 @@ h2{
 
     color:#333;
 
-    margin-top:5px;
+    margin-top:8px;
 
 }
 
+
+/* ==========================================
+   LOADING
+========================================== */
 
 .loading{
 
@@ -100,6 +114,10 @@ h2{
 
 }
 
+
+/* ==========================================
+   VERIFIED
+========================================== */
 
 .verified{
 
@@ -122,6 +140,10 @@ h2{
 }
 
 
+/* ==========================================
+   NOT VERIFIED
+========================================== */
+
 .notverified{
 
     background:#f8d7da;
@@ -130,18 +152,61 @@ h2{
 
     border:1px solid #dc3545;
 
-    padding:18px;
+    padding:22px;
 
     border-radius:8px;
 
     text-align:center;
 
-    font-size:22px;
+}
+
+
+.notverified-title{
+
+    font-size:23px;
 
     font-weight:bold;
 
+    margin-bottom:15px;
+
 }
 
+
+.notverified-message{
+
+    font-size:17px;
+
+    line-height:1.7;
+
+    font-weight:normal;
+
+}
+
+
+.call-note{
+
+    margin-top:18px;
+
+    padding:13px;
+
+    background:#fff3cd;
+
+    border:1px solid #ffc107;
+
+    color:#664d03;
+
+    border-radius:7px;
+
+    font-size:16px;
+
+    line-height:1.6;
+
+}
+
+
+/* ==========================================
+   VERIFICATION ID
+========================================== */
 
 .id{
 
@@ -159,6 +224,10 @@ h2{
 
 }
 
+
+/* ==========================================
+   RECORD
+========================================== */
 
 .record{
 
@@ -211,16 +280,24 @@ h2{
 }
 
 
+/* ==========================================
+   ESTIMATE AMOUNT
+========================================== */
+
 .amount{
 
     font-size:20px;
 
     font-weight:bold;
 
-    color:#198754;
+    color:#0b5ed7;
 
 }
 
+
+/* ==========================================
+   FOOTER
+========================================== */
 
 .footer{
 
@@ -232,10 +309,68 @@ h2{
 
     font-size:13px;
 
-    line-height:1.5;
+    line-height:1.6;
 
 }
 
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media(max-width:600px){
+
+    .container{
+
+        margin:15px;
+
+        padding:20px;
+
+    }
+
+
+    h1{
+
+        font-size:26px;
+
+    }
+
+
+    h2{
+
+        font-size:20px;
+
+    }
+
+
+    .verified{
+
+        font-size:21px;
+
+    }
+
+
+    .id{
+
+        font-size:21px;
+
+    }
+
+
+    .notverified-title{
+
+        font-size:20px;
+
+    }
+
+
+    .notverified-message{
+
+        font-size:16px;
+
+    }
+
+}
 
 </style>
 
@@ -263,13 +398,21 @@ h2{
 </div>
 
 
+<!-- ==========================================
+     TITLE
+========================================== -->
+
 <h1>
+
 PATEL ASSOCIATES
+
 </h1>
 
 
 <h2>
+
 Online Verification Portal
+
 </h2>
 
 
@@ -277,7 +420,10 @@ Online Verification Portal
      LOADING
 ========================================== -->
 
-<div id="loading" class="loading">
+<div
+    id="loading"
+    class="loading"
+>
 
 🔄 Verification record खोजा जा रहा है...
 
@@ -319,7 +465,7 @@ const API_URL =
 
 
 /* ==================================================
-   GET VERIFICATION ID
+   GET URL PARAMETERS
 ================================================== */
 
 const urlParams =
@@ -328,18 +474,33 @@ const urlParams =
     );
 
 
+/* ==================================================
+   VERIFICATION ID
+================================================== */
+
 const verificationID =
     urlParams.get("id");
 
 
 /* ==================================================
-   CHECK VERIFICATION ID
+   REPORT TYPE
+   New links में ?type=Estimate आदि भेज सकते हैं
+================================================== */
+
+const urlReportType =
+    urlParams.get("type");
+
+
+/* ==================================================
+   START
 ================================================== */
 
 if(!verificationID){
 
     showError(
-        "Verification ID नहीं मिली।"
+        urlReportType
+            ? getInvalidMessage(urlReportType)
+            : "यह Verification ID हमारे database में नहीं मिली है।"
     );
 
 }
@@ -352,7 +513,7 @@ else{
 
 
 /* ==================================================
-   LOAD RECORD FROM GOOGLE SHEET
+   LOAD RECORD
 ================================================== */
 
 function loadVerificationRecord(){
@@ -368,7 +529,6 @@ function loadVerificationRecord(){
 
     fetch(apiURL)
 
-
     .then(function(response){
 
         if(!response.ok){
@@ -383,7 +543,6 @@ function loadVerificationRecord(){
 
     })
 
-
     .then(function(data){
 
         console.log(
@@ -391,6 +550,10 @@ function loadVerificationRecord(){
             data
         );
 
+
+        /* ==========================================
+           RECORD FOUND
+        ========================================== */
 
         if(
             data.success &&
@@ -405,28 +568,157 @@ function loadVerificationRecord(){
 
         else{
 
+            /*
+               IMPORTANT:
+               Database में ID नहीं मिली।
+               इसलिए URL में type मौजूद हो
+               तो उसी type के अनुसार message।
+            */
+
+            const reportType =
+                urlReportType ||
+                "";
+
+
             showError(
-                "यह Verification ID database में नहीं मिली।"
+                getInvalidMessage(
+                    reportType
+                )
             );
 
         }
 
     })
 
-
     .catch(function(error){
 
         console.error(
-            "Verification Error:",
             error
         );
 
 
         showError(
-            "Verification data load नहीं हो सकी।"
+
+            "Verification data load नहीं हो सकी। कृपया कुछ समय बाद पुनः प्रयास करें।"
+
         );
 
     });
+
+}
+
+
+/* ==================================================
+   INVALID DOCUMENT MESSAGE
+================================================== */
+
+function getInvalidMessage(reportType){
+
+    let typeText =
+        String(
+            reportType || ""
+        ).trim();
+
+
+    /*
+       अगर report type URL में नहीं है
+       तो generic message
+    */
+
+    if(!typeText){
+
+        return `
+
+            <div class="notverified-message">
+
+                यह Verification ID हमारे database में नहीं मिली है।
+
+                <br><br>
+
+                यह दस्तावेज़ हमारे द्वारा बनाया गया है या नहीं,
+                इसकी पुष्टि के लिए कृपया PATEL ASSOCIATES में
+                call करके Verify जरूर कर लें।
+
+            </div>
+
+            <div class="call-note">
+
+                📞 अधिक जानकारी हेतु PATEL ASSOCIATES से
+                संपर्क करें।
+
+            </div>
+
+        `;
+
+    }
+
+
+    /*
+       Report type के साथ message
+    */
+
+    return `
+
+        <div class="notverified-message">
+
+            यह Verification ID हमारे database में नहीं मिली है।
+
+            <br><br>
+
+            यह <b>${escapeHTML(typeText)}</b>
+            हमारे द्वारा नहीं बनाया गया है।
+
+            <br><br>
+
+            कृपया अधिक जानकारी हेतु
+            PATEL ASSOCIATES में call करके
+            Verify जरूर कर लें।
+
+        </div>
+
+        <div class="call-note">
+
+            📞 कृपया किसी भी महत्वपूर्ण निर्णय से पहले
+            PATEL ASSOCIATES से दस्तावेज़ की पुष्टि जरूर करें।
+
+        </div>
+
+    `;
+
+}
+
+
+/* ==================================================
+   SHOW ERROR
+================================================== */
+
+function showError(message){
+
+
+    document.getElementById(
+        "loading"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "result"
+    ).innerHTML = `
+
+        <div class="notverified">
+
+            <div class="notverified-title">
+
+                ❌ DOCUMENT NOT VERIFIED
+
+            </div>
+
+
+            ${message}
+
+        </div>
+
+    `;
 
 }
 
@@ -444,68 +736,61 @@ function showRecord(record){
         "none";
 
 
-    /* ==========================================
-       ESTIMATE AMOUNT
-    ========================================== */
+    let estimateHTML = "";
 
-    let estimateAmountHTML = "";
 
+    /*
+       Estimate होने पर amount दिखाएं
+    */
 
     if(
-
-        record.reportType &&
-
-        record.reportType
-            .toLowerCase()
-            .includes("estimate")
-
-        &&
-
-        record.totalEstimateAmount !== undefined &&
-
-        record.totalEstimateAmount !== null &&
-
         String(
-            record.totalEstimateAmount
-        ).trim() !== ""
-
+            record.reportType || ""
+        ).toLowerCase()
+        ===
+        "estimate"
     ){
 
-        estimateAmountHTML = `
+        if(
+            record.totalEstimateAmount !==
+            undefined &&
+            record.totalEstimateAmount !==
+            null &&
+            String(
+                record.totalEstimateAmount
+            ).trim() !== ""
+        ){
 
-            <div class="row">
+            estimateHTML = `
 
-                <div class="label">
+                <div class="row">
 
-                    Total Estimate Amount
+                    <div class="label">
+
+                        Total Estimate Amount
+
+                    </div>
+
+                    <div class="value amount">
+
+                        ₹ ${formatAmount(
+                            record.totalEstimateAmount
+                        )}
+
+                    </div>
 
                 </div>
 
-                <div class="value amount">
+            `;
 
-                    ₹ ${formatAmount(
-                        record.totalEstimateAmount
-                    )}
-
-                </div>
-
-            </div>
-
-        `;
+        }
 
     }
 
 
-    /* ==========================================
-       SHOW RESULT
-    ========================================== */
-
     document.getElementById(
         "result"
     ).innerHTML = `
-
-
-        <!-- VERIFIED -->
 
         <div class="verified">
 
@@ -514,23 +799,15 @@ function showRecord(record){
         </div>
 
 
-        <!-- VERIFICATION ID -->
-
         <div class="id">
 
-            ${escapeHTML(
-                record.id
-            )}
+            ${escapeHTML(record.id)}
 
         </div>
 
 
-        <!-- RECORD -->
-
         <div class="record">
 
-
-            <!-- OWNER NAME -->
 
             <div class="row">
 
@@ -551,8 +828,6 @@ function showRecord(record){
             </div>
 
 
-            <!-- OWNER ADDRESS -->
-
             <div class="row">
 
                 <div class="label">
@@ -571,8 +846,6 @@ function showRecord(record){
 
             </div>
 
-
-            <!-- REPORT TYPE -->
 
             <div class="row">
 
@@ -593,12 +866,8 @@ function showRecord(record){
             </div>
 
 
-            <!-- ESTIMATE AMOUNT -->
+            ${estimateHTML}
 
-            ${estimateAmountHTML}
-
-
-            <!-- ISSUE DATE -->
 
             <div class="row">
 
@@ -611,15 +880,15 @@ function showRecord(record){
                 <div class="value">
 
                     ${escapeHTML(
-                        record.issueDate
+                        formatDate(
+                            record.issueDate
+                        )
                     )}
 
                 </div>
 
             </div>
 
-
-            <!-- STATUS -->
 
             <div class="row">
 
@@ -653,12 +922,10 @@ function showRecord(record){
 
 function formatAmount(value){
 
-    let number =
+    const number =
         Number(
             String(value)
                 .replace(/,/g,"")
-                .replace(/₹/g,"")
-                .trim()
         );
 
 
@@ -676,6 +943,7 @@ function formatAmount(value){
     return number.toLocaleString(
         "en-IN",
         {
+            minimumFractionDigits:0,
             maximumFractionDigits:2
         }
     );
@@ -684,59 +952,65 @@ function formatAmount(value){
 
 
 /* ==================================================
-   ERROR
+   FORMAT DATE
 ================================================== */
 
-function showError(message){
+function formatDate(value){
+
+    if(!value){
+
+        return "";
+
+    }
 
 
-    document.getElementById(
-        "loading"
-    ).style.display =
-        "none";
+    /*
+       अगर date already readable है
+    */
+
+    const text =
+        String(value);
 
 
-    document.getElementById(
-        "result"
-    ).innerHTML = `
+    /*
+       YYYY-MM-DD
+    */
 
-        <div class="notverified">
+    if(
+        /^\d{4}-\d{2}-\d{2}$/.test(
+            text
+        )
+    ){
 
-            ✕ NOT VERIFIED
+        const parts =
+            text.split("-");
 
 
-            <div style="
-                font-size:15px;
-                margin-top:12px;
-                font-weight:normal;
-                line-height:1.5;
-            ">
+        return (
+            parts[2] +
+            "-" +
+            parts[1] +
+            "-" +
+            parts[0]
+        );
 
-                ${escapeHTML(
-                    message
-                )}
+    }
 
-            </div>
 
-        </div>
-
-    `;
+    return text;
 
 }
 
 
 /* ==================================================
-   SECURITY
+   SECURITY - ESCAPE HTML
 ================================================== */
 
 function escapeHTML(value){
 
     if(
-
         value === undefined ||
-
         value === null
-
     ){
 
         return "";
@@ -772,7 +1046,6 @@ function escapeHTML(value){
         );
 
 }
-
 
 </script>
 
