@@ -7,25 +7,9 @@
     "issueDate": "27 July 2026",
     "status": "VERIFIED"
   },
-  {
-  "id": "PA-2026-PHMY",
-  "ownerName": "Shri Ram",
-  "ownerAddress": "Plot no. 1234345324",
-  "reportType": "Floor Plan",
-  "issueDate": "2026-07-30",
-  "status": "VERIFIED"
-},
-  {
-  "id": "PA-2026-VKA8",
-  "ownerName": "Patel",
-  "ownerAddress": "Plot no. 25 Navkar Naga, Khandwa",
-  "reportType": "Floor Plan",
-  "issueDate": "2026-07-30",
-  "status": "VERIFIED"
-},
-    {
+      {
   "id": "PA-8KVU-GQT2",
-  "ownerName": "MRS. Pooja ",
+  "ownerName": "MR. Shri Ram ",
   "ownerAddress": "fjgdjndndnldnb.]",
   "reportType": "Estimate",
   "issueDate": "2012-08-15",
